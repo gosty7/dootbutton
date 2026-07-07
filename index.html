@@ -1,90 +1,70 @@
 <!DOCTYPE html>
-<html lang="en" style="scroll-behavior: smooth;">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Doot Button</title>
-    <link rel="icon" type="image/png" href="favicon.png">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; font-size: 115%; }
-        body { background-color: #121212; color: #f5f5f7; overflow-x: hidden; }
-        header { position: fixed; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .home-btn img { height: 35px; width: auto; }
-        .nav-btn { background: #dfc19b; color: #000; padding: 8px 16px; border-radius: 20px; font-weight: 700; text-transform: uppercase; cursor: pointer; text-decoration: none; }
-        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 120px 25px 40px 25px; text-align: center; }
-        h1 { font-size: 3rem; margin-bottom: 12px; }
-        .counter-text { color: #86868b; font-size: 1.1rem; margin-bottom: 25px; font-weight: 600; }
-        .interactive-button-container { margin: 10px 0; cursor: pointer; transition: transform 0.2s ease; }
-        .interactive-button-container img { max-width: 260px; width: 100%; height: auto; -webkit-user-drag: none; }
-        .doot-active { transform: scale(0.95) !important; }
-        .premium-input { width: 100%; padding: 12px; border-radius: 10px; background: #1a1a1a; color: white; margin-bottom: 10px; border: 2px solid transparent; animation: pulse-red 2s infinite; outline: none; }
-        @keyframes pulse-red { 0% { border-color: rgba(255, 50, 50, 0.2); } 50% { border-color: rgba(255, 50, 50, 0.6); } 100% { border-color: rgba(255, 50, 50, 0.2); } }
-        .action-btn { width: 100%; background: #dfc19b; border: none; padding: 12px; border-radius: 10px; font-weight: 700; color: #000; cursor: pointer; }
-        #successMessage { display: none; padding: 12px; color: #fff; font-size: 1rem; }
+        body { background-color: #121212; color: #f5f5f7; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        h1 { font-size: 3rem; margin-bottom: 10px; }
+        .counter-text { color: #86868b; margin-bottom: 20px; font-weight: 600; }
+        .btn-container { cursor: pointer; transition: transform 0.2s; }
+        .btn-container img { max-width: 260px; }
+        .active { transform: scale(0.95); }
+        .form-container { margin-top: 30px; width: 300px; }
+        input { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: none; }
+        button { width: 100%; padding: 10px; background: #dfc19b; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
-    <header>
-        <a href="#" class="home-btn"><img src="favicon.png" alt="Logo"></a>
-        <a href="#reserve" class="nav-btn">Join Waitlist</a>
-    </header>
-    <section class="hero">
-        <h1>The Doot Button</h1>
-        <div class="counter-text" id="dootCounter">Loading doots...</div>
-        <div class="interactive-button-container" id="dootTrigger">
-            <img src="dootup.png" id="dootImage" alt="Doot Button">
-        </div>
-        <div class="cta-container" id="reserve">
-            <form id="newsletterForm">
-                <input type="email" name="Email" class="premium-input" placeholder="Your email" required>
-                <button type="submit" class="action-btn">Join Waitlist</button>
-            </form>
-            <div id="successMessage">Thanks for Joining!</div>
-        </div>
-    </section>
-    <audio id="dootInAudio" src="dootclickin.wav"></audio>
-    <audio id="dootOutAudio" src="dootclickout.wav"></audio>
+
+    <h1>The Doot Button</h1>
+    <div class="counter-text" id="dootCounter">Loading...</div>
+    
+    <div class="btn-container" id="trigger">
+        <img src="dootup.png" id="dootImage" alt="Doot Button">
+    </div>
+
+    <div class="form-container">
+        <form id="newsletterForm">
+            <input type="email" name="Email" placeholder="Your email" required>
+            <button type="submit">Join Waitlist</button>
+        </form>
+    </div>
+
+    <audio id="in" src="dootclickin.wav"></audio>
+    <audio id="out" src="dootclickout.wav"></audio>
+
     <script>
-        const buttonImg = document.getElementById('dootImage');
-        const trigger = document.getElementById('dootTrigger');
+        const img = document.getElementById('dootImage');
+        const trigger = document.getElementById('trigger');
         const counter = document.getElementById('dootCounter');
         const SCRIPT_URL = 'PASTE_YOUR_URL_HERE';
 
+        // Load Count
         fetch(SCRIPT_URL + '?type=get').then(r => r.text()).then(t => counter.innerText = t + " Total Doots");
 
-        function playDoot() {
-            trigger.classList.add('doot-active');
-            buttonImg.src = 'dootdown.png';
-            document.getElementById('dootOutAudio').pause();
-            document.getElementById('dootOutAudio').currentTime = 0;
-            document.getElementById('dootInAudio').currentTime = 0;
-            document.getElementById('dootInAudio').play();
-        }
+        // Doot Logic
+        trigger.addEventListener('mousedown', () => {
+            img.src = 'dootdown.png';
+            document.getElementById('in').play();
+        });
 
-        function releaseDoot() {
-            trigger.classList.remove('doot-active');
-            if (buttonImg.src.includes('dootdown.png')) {
-                buttonImg.src = 'dootup.png';
-                document.getElementById('dootInAudio').pause();
-                document.getElementById('dootInAudio').currentTime = 0;
-                document.getElementById('dootOutAudio').currentTime = 0;
-                document.getElementById('dootOutAudio').play();
+        window.addEventListener('mouseup', () => {
+            if (img.src.includes('dootdown.png')) {
+                img.src = 'dootup.png';
+                document.getElementById('out').play();
                 const cur = parseInt(counter.innerText) || 0;
                 counter.innerText = (cur + 1) + " Total Doots";
                 fetch(SCRIPT_URL + '?type=doot');
             }
-        }
+        });
 
-        trigger.addEventListener('mousedown', playDoot);
-        window.addEventListener('mouseup', releaseDoot);
-        trigger.addEventListener('touchstart', (e) => { e.preventDefault(); playDoot(); }, {passive: false});
-        window.addEventListener('touchend', releaseDoot);
-
+        // Email Logic
         document.getElementById('newsletterForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            document.getElementById('newsletterForm').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
             fetch(SCRIPT_URL, { method: 'POST', body: new FormData(e.target)});
+            alert("Thanks!");
         });
     </script>
 </body>
