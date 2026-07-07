@@ -9,8 +9,7 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            -webkit-font-smoothing: antialiased; 
-            font-size: 115%; }
+            -webkit-font-smoothing: antialiased; font-size: 115%; }
 
         body { background-color: #121212; color: #f5f5f7; overflow-x: hidden; }
 
@@ -41,7 +40,10 @@
         .interactive-button-container img { max-width: 280px; width: 100%; height: auto; -webkit-user-drag: none; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
         .doot-active { transform: scale(0.92) !important; }
 
-        .cta-container { width: 100%; max-width: 320px; margin-top: 40px; }
+        /* Counter Styling */
+        #dootCounter { margin: 20px 0; color: #dfc19b; font-weight: 600; font-size: 1.1rem; }
+
+        .cta-container { width: 100%; max-width: 320px; margin-top: 20px; }
         .premium-input { width: 100%; padding: 15px; border-radius: 12px; background: #1a1a1a; color: white; margin-bottom: 12px; font-size: 1.1rem; border: 1px solid #333; outline: none; transition: border 0.3s; }
         .premium-input:focus { border-color: #dfc19b; }
         .action-btn { width: 100%; background: #dfc19b; border: none; padding: 15px; border-radius: 12px; font-weight: 800; color: #000; cursor: pointer; font-size: 1.1rem; }
@@ -64,13 +66,15 @@
             <img src="dootup.png" id="dootImage" alt="Doot Button">
         </div>
 
+        <div id="dootCounter">Loading total doots...</div>
+
         <div class="cta-container" id="reserve">
             <form id="newsletterForm">
                 <input type="email" name="Email" class="premium-input" placeholder="Your email address" required>
                 <button type="submit" class="action-btn">Join Waitlist</button>
             </form>
             <div id="successMessage">
-                <span id="statusText">Joining waitlist...</span>
+                <span id="statusText">Thanks for Joining!</span>
             </div>
         </div>
     </section>
@@ -81,42 +85,43 @@
     <script>
         const buttonImg = document.getElementById('dootImage');
         const dootTrigger = document.getElementById('dootTrigger');
-        const dootInAudio = document.getElementById('dootInAudio');
-        const dootOutAudio = document.getElementById('dootOutAudio');
-        const form = document.getElementById('newsletterForm');
-        const successMsg = document.getElementById('successMessage');
+        const counterDisplay = document.getElementById('dootCounter');
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec';
+
+        // Fetch Count on Load
+        fetch(SCRIPT_URL + '?type=get').then(r => r.text()).then(t => counterDisplay.innerText = t + " Total Doots");
 
         function pressButton() { 
             dootTrigger.classList.add('doot-active'); 
             buttonImg.src = 'dootdown.png'; 
-            dootOutAudio.pause(); dootOutAudio.currentTime = 0; 
-            dootInAudio.currentTime = 0; dootInAudio.play(); 
+            document.getElementById('dootOutAudio').pause(); document.getElementById('dootOutAudio').currentTime = 0; 
+            document.getElementById('dootInAudio').currentTime = 0; document.getElementById('dootInAudio').play(); 
         }
 
         function releaseButton() { 
             dootTrigger.classList.remove('doot-active'); 
             if (buttonImg.src.includes('dootdown.png')) { 
                 buttonImg.src = 'dootup.png'; 
-                dootInAudio.pause(); dootInAudio.currentTime = 0; 
-                dootOutAudio.currentTime = 0; dootOutAudio.play(); 
+                document.getElementById('dootInAudio').pause(); document.getElementById('dootInAudio').currentTime = 0; 
+                document.getElementById('dootOutAudio').currentTime = 0; document.getElementById('dootOutAudio').play(); 
+                
+                // Optimistic UI Update
+                const cur = parseInt(counterDisplay.innerText.replace(/[^0-9]/g, '')) || 0;
+                counterDisplay.innerText = (cur + 1) + " Total Doots";
+                fetch(SCRIPT_URL + '?type=doot');
             } 
         }
 
         buttonImg.addEventListener('mousedown', pressButton);
         window.addEventListener('mouseup', releaseButton);
-        buttonImg.addEventListener('mouseleave', releaseButton); 
         buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); }, {passive: false});
-        buttonImg.addEventListener('touchend', releaseButton);
-        buttonImg.addEventListener('touchcancel', releaseButton);
+        window.addEventListener('touchend', releaseButton);
 
-        form.addEventListener('submit', (e) => {
+        document.getElementById('newsletterForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            form.style.display = 'none'; 
-            successMsg.style.display = 'block';
-            setTimeout(() => {
-                successMsg.textContent = "Thanks for Joining!";
-                fetch('https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec', { method: 'POST', body: new FormData(form)});
-            }, 1200); 
+            document.getElementById('newsletterForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            fetch(SCRIPT_URL, { method: 'POST', body: new FormData(e.target)});
         });
     </script>
 </body>
