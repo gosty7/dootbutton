@@ -14,11 +14,10 @@
 
         body { background-color: #121212; color: #f5f5f7; overflow-x: hidden; }
 
-        /* Transparent, floating header */
         header { 
             position: fixed; top: 0; width: 100%; padding: 25px 40px; 
             display: flex; justify-content: space-between; align-items: center; 
-            background: transparent; z-index: 100; transition: background 0.3s ease;
+            background: transparent; z-index: 100;
         }
         
         .home-btn { display: flex; align-items: center; text-decoration: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
@@ -30,7 +29,7 @@
             cursor: pointer; text-decoration: none; box-shadow: 0 4px 15px rgba(223, 193, 155, 0.2);
             transition: all 0.3s ease;
         }
-        .nav-btn:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(223, 193, 155, 0.4); }
+        .nav-btn:hover { background: #fff; transform: translateY(-2px); }
 
         .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 25px 40px 25px; text-align: center; }
         
@@ -43,16 +42,9 @@
         .doot-active { transform: scale(0.92) !important; }
 
         .cta-container { width: 100%; max-width: 320px; margin-top: 40px; }
-        
-        .premium-input { 
-            width: 100%; padding: 15px; border-radius: 12px; 
-            background: #1a1a1a; color: white; margin-bottom: 12px; font-size: 1.1rem;
-            border: 1px solid #333; outline: none; transition: border 0.3s;
-        }
+        .premium-input { width: 100%; padding: 15px; border-radius: 12px; background: #1a1a1a; color: white; margin-bottom: 12px; font-size: 1.1rem; border: 1px solid #333; outline: none; transition: border 0.3s; }
         .premium-input:focus { border-color: #dfc19b; }
-
         .action-btn { width: 100%; background: #dfc19b; border: none; padding: 15px; border-radius: 12px; font-weight: 800; color: #000; cursor: pointer; font-size: 1.1rem; }
-        
         #successMessage { display: none; padding: 15px; color: #fff; font-size: 1rem; }
     </style>
 </head>
@@ -83,5 +75,49 @@
         </div>
     </section>
 
-    </body>
+    <audio id="dootInAudio" src="dootclickin.wav"></audio>
+    <audio id="dootOutAudio" src="dootclickout.wav"></audio>
+
+    <script>
+        const buttonImg = document.getElementById('dootImage');
+        const dootTrigger = document.getElementById('dootTrigger');
+        const dootInAudio = document.getElementById('dootInAudio');
+        const dootOutAudio = document.getElementById('dootOutAudio');
+        const form = document.getElementById('newsletterForm');
+        const successMsg = document.getElementById('successMessage');
+
+        function pressButton() { 
+            dootTrigger.classList.add('doot-active'); 
+            buttonImg.src = 'dootdown.png'; 
+            dootOutAudio.pause(); dootOutAudio.currentTime = 0; 
+            dootInAudio.currentTime = 0; dootInAudio.play(); 
+        }
+
+        function releaseButton() { 
+            dootTrigger.classList.remove('doot-active'); 
+            if (buttonImg.src.includes('dootdown.png')) { 
+                buttonImg.src = 'dootup.png'; 
+                dootInAudio.pause(); dootInAudio.currentTime = 0; 
+                dootOutAudio.currentTime = 0; dootOutAudio.play(); 
+            } 
+        }
+
+        buttonImg.addEventListener('mousedown', pressButton);
+        window.addEventListener('mouseup', releaseButton);
+        buttonImg.addEventListener('mouseleave', releaseButton); 
+        buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); }, {passive: false});
+        buttonImg.addEventListener('touchend', releaseButton);
+        buttonImg.addEventListener('touchcancel', releaseButton);
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            form.style.display = 'none'; 
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.textContent = "Thanks for Joining!";
+                fetch('https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec', { method: 'POST', body: new FormData(form)});
+            }, 1200); 
+        });
+    </script>
+</body>
 </html>
