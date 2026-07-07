@@ -13,10 +13,13 @@
         .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 20px; text-align: center; }
         h1 { font-size: 4rem; margin-bottom: 15px; }
         p { color: #86868b; margin-bottom: 30px; font-size: 1.2rem; }
+        
+        /* The single, official button container */
         .interactive-button-container { margin: 40px 0; cursor: pointer; user-select: none; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .interactive-button-container img { max-width: 320px; width: 100%; height: auto; transition: transform 0.2s ease-out; }
         .interactive-button-container:active { transform: scale(0.95); }
         .interactive-button-container:hover { filter: drop-shadow(0 0 15px rgba(223, 193, 155, 0.3)); }
+        
         .cta-container { width: 100%; max-width: 420px; margin-top: 40px; }
         .email-capture-wrapper { display: flex; gap: 10px; }
         .premium-input { flex: 1; padding: 14px 20px; border-radius: 25px; border: 1px solid #333; background: #111; color: white; outline: none; }
@@ -34,6 +37,7 @@
         <h1>The Doot Button</h1>
         <p>One button. One sound. Infinite satisfaction.</p>
 
+        <!-- THIS IS THE ONLY BUTTON -->
         <div class="interactive-button-container" id="dootTrigger">
             <img src="dootup.png" id="dootImage" alt="Doot Button">
         </div>
@@ -58,7 +62,6 @@
         const form = document.getElementById('newsletterForm');
         const successMsg = document.getElementById('successMessage');
 
-        // Button logic
         function pressButton() {
             buttonImg.src = 'dootdown.png';
             dootInAudio.currentTime = 0;
@@ -76,117 +79,12 @@
         buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); });
         buttonImg.addEventListener('touchend', releaseButton);
 
-        // Form success handling
         form.addEventListener('submit', function(e) {
-            // We let the form submit normally to Formspree, 
-            // but we can add a small delay to show the success message
             setTimeout(() => {
                 form.style.display = 'none';
                 successMsg.style.display = 'block';
             }, 500);
         });
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Doot Button — Simplicity. Perfected.</title>
-    <style>
-        /* --- Reset & Base Styles --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; }
-        body { background-color: #000000; color: #f5f5f7; overflow-x: hidden; }
-
-        /* --- Header --- */
-        header { position: fixed; top: 0; width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .logo { font-weight: 600; letter-spacing: -0.01em; }
-        .nav-btn { background: #dfc19b; color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-decoration: none; transition: opacity 0.2s; }
-
-        /* --- Hero --- */
-        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 20px; text-align: center; }
-        h1 { font-size: 4rem; margin-bottom: 15px; }
-        p { color: #86868b; margin-bottom: 30px; font-size: 1.2rem; }
-
-        /* --- Addicting Interactive Doot Button --- */
-        .interactive-button-container { 
-            margin: 40px 0; 
-            cursor: pointer; 
-            user-select: none;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .interactive-button-container img { 
-            max-width: 320px; 
-            width: 100%; 
-            height: auto; 
-            transition: transform 0.2s ease-out; 
-        }
-        .interactive-button-container:active { transform: scale(0.95); }
-        .interactive-button-container:hover { filter: drop-shadow(0 0 15px rgba(223, 193, 155, 0.3)); }
-
-        /* --- Form --- */
-        .cta-container { width: 100%; max-width: 420px; margin-top: 40px; }
-        .email-capture-wrapper { display: flex; gap: 10px; }
-        .premium-input { flex: 1; padding: 14px 20px; border-radius: 25px; border: 1px solid #333; background: #111; color: white; outline: none; }
-        .action-btn { background: #dfc19b; border: none; padding: 14px 25px; border-radius: 25px; font-weight: 600; cursor: pointer; white-space: nowrap; }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="logo">Doot Button</div>
-        <a href="#reserve" class="nav-btn">Buy Now</a>
-    </header>
-
-    <section class="hero">
-        <h1>The Doot Button</h1>
-        <p>One button. One sound. Infinite satisfaction.</p>
-
-        <div class="interactive-button-container" id="dootTrigger">
-            <img src="dootup.png" id="dootImage" alt="Doot Button">
-        </div>
-        <p>Tap and hold to doot.</p>
-
-        <div class="cta-container" id="reserve">
-            <form class="email-capture-wrapper" action="https://formspree.io/f/YOUR_UNIQUE_ID" method="POST" id="newsletterForm">
-                <input type="email" name="email" class="premium-input" placeholder="Enter your email" required id="emailInput">
-                <button type="submit" class="action-btn" id="submitBtn">Join Waitlist</button>
-            </form>
-        </div>
-    </section>
-
-    <audio id="dootInAudio" src="dootclickin.wav"></audio>
-    <audio id="dootOutAudio" src="dootclickout.wav"></audio>
-
-    <script>
-        const buttonImg = document.getElementById('dootImage');
-        const dootInAudio = document.getElementById('dootInAudio');
-        const dootOutAudio = document.getElementById('dootOutAudio');
-
-        function pressButton() {
-            buttonImg.src = 'dootdown.png';
-            dootInAudio.currentTime = 0;
-            dootInAudio.play().catch(e => console.log("Press audio ready"));
-        }
-
-        function releaseButton() {
-            if (buttonImg.src.includes('dootdown.png')) {
-                buttonImg.src = 'dootup.png';
-                dootOutAudio.currentTime = 0;
-                dootOutAudio.play().catch(e => console.log("Release audio ready"));
-            }
-        }
-
-        // Desktop Events
-        buttonImg.addEventListener('mousedown', pressButton);
-        window.addEventListener('mouseup', releaseButton);
-        
-        // Touch Events
-        buttonImg.addEventListener('touchstart', (e) => { 
-            e.preventDefault(); 
-            pressButton(); 
-        });
-        buttonImg.addEventListener('touchend', releaseButton);
     </script>
 </body>
 </html>
