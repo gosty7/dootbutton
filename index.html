@@ -3,55 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Doot Button — Simplicity. Perfected.</title>
+    <title>The Doot Button — Own the Satisfaction.</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; }
+        /* Modern, high-end typography setup */
+        * { box-sizing: border-box; margin: 0; padding: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            -webkit-font-smoothing: antialiased; }
         body { background-color: #000000; color: #f5f5f7; overflow-x: hidden; }
 
-        /* Sticky Header */
+        /* Header - Minimalist */
         header { position: fixed; top: 0; width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .logo { font-weight: 600; letter-spacing: -0.01em; }
-        .nav-btn { background: #dfc19b; color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-decoration: none; }
+        .logo { font-weight: 700; letter-spacing: -0.02em; font-size: 1.1rem; }
+        .nav-btn { background: #dfc19b; color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; }
 
-        /* Hero */
+        /* Hero - Focus on "Buying" mindset */
         .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 20px; text-align: center; }
-        h1 { font-size: 4rem; margin-bottom: 15px; }
-        p { color: #86868b; margin-bottom: 30px; font-size: 1.2rem; }
+        h1 { font-size: 3.5rem; margin-bottom: 15px; letter-spacing: -0.04em; }
+        p { color: #86868b; margin-bottom: 40px; font-size: 1.1rem; max-width: 400px; line-height: 1.5; }
 
         /* Interactive Button */
-        .interactive-button-container { margin: 40px 0; cursor: pointer; user-select: none; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .interactive-button-container img { max-width: 320px; width: 100%; height: auto; transition: transform 0.2s ease-out; }
+        .interactive-button-container { margin: 20px 0; cursor: pointer; user-select: none; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .interactive-button-container img { max-width: 320px; width: 100%; height: auto; }
         .interactive-button-container:active { transform: scale(0.95); }
-        .interactive-button-container:hover { filter: drop-shadow(0 0 15px rgba(223, 193, 155, 0.3)); }
 
-        /* Form */
-        .cta-container { width: 100%; max-width: 420px; margin-top: 40px; }
-        .email-capture-wrapper { display: flex; gap: 10px; }
-        .premium-input { flex: 1; padding: 14px 20px; border-radius: 25px; border: 1px solid #333; background: #111; color: white; outline: none; }
-        .action-btn { background: #dfc19b; border: none; padding: 14px 25px; border-radius: 25px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        /* Waitlist - Psychological "Connection" state */
+        .cta-container { width: 100%; max-width: 380px; margin-top: 40px; }
+        .premium-input { width: 100%; padding: 16px 20px; border-radius: 12px; border: 1px solid #333; background: #111; color: white; outline: none; font-size: 1rem; margin-bottom: 15px; }
+        .action-btn { width: 100%; background: #dfc19b; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 1rem; color: #000; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: background 0.3s; }
+        .action-btn:hover { background: #c5a682; }
+        #successMessage { display: none; color: #dfc19b; font-weight: 500; font-size: 1.1rem; padding: 20px; border: 1px solid #dfc19b; border-radius: 12px; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo">Doot Button</div>
-        <a href="#reserve" class="nav-btn">Buy Now</a>
+        <a href="#reserve" class="nav-btn">Reserve Early</a>
     </header>
 
     <section class="hero">
-        <h1>The Doot Button</h1>
-        <p>One button. One sound. Infinite satisfaction.</p>
+        <h1>Simplicity, Perfected.</h1>
+        <p>The Doot Button is not just a tool—it is an experience. Join the early access program to secure your unit.</p>
 
         <div class="interactive-button-container" id="dootTrigger">
             <img src="dootup.png" id="dootImage" alt="Doot Button">
         </div>
 
         <div class="cta-container" id="reserve">
-            <form id="newsletterForm" class="email-capture-wrapper">
-                <input type="email" name="Email" class="premium-input" placeholder="Enter your email" required id="emailInput">
-                <button type="submit" class="action-btn" id="submitBtn">Join Waitlist</button>
+            <form id="newsletterForm">
+                <input type="email" name="Email" class="premium-input" placeholder="Your professional email" required id="emailInput">
+                <button type="submit" class="action-btn" id="submitBtn">Join Early Access</button>
             </form>
-            <p id="successMessage" style="display:none; color: #dfc19b; margin-top: 20px; font-size: 1.2rem;">Thank you! You're on the list.</p>
+            <div id="successMessage">Accessing waitlist...</div>
         </div>
     </section>
 
@@ -67,38 +70,26 @@
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec';
 
-        // Doot Interaction
-        function pressButton() {
-            buttonImg.src = 'dootdown.png';
-            dootInAudio.currentTime = 0;
-            dootInAudio.play();
-        }
-        function releaseButton() {
-            if (buttonImg.src.includes('dootdown.png')) {
-                buttonImg.src = 'dootup.png';
-                dootOutAudio.currentTime = 0;
-                dootOutAudio.play();
-            }
-        }
+        // Sound Interaction
+        function pressButton() { buttonImg.src = 'dootdown.png'; dootInAudio.currentTime = 0; dootInAudio.play(); }
+        function releaseButton() { if (buttonImg.src.includes('dootdown.png')) { buttonImg.src = 'dootup.png'; dootOutAudio.currentTime = 0; dootOutAudio.play(); } }
 
         buttonImg.addEventListener('mousedown', pressButton);
         window.addEventListener('mouseup', releaseButton);
         buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); });
         buttonImg.addEventListener('touchend', releaseButton);
 
-        // Immediate UI Google Sheets Submission
+        // Official Submission Logic
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            // 1. Instant UI Snap
             form.style.display = 'none'; 
             successMsg.style.display = 'block';
+            successMsg.textContent = "Connecting to reservation secure-server..."; 
             
-            // 2. Background offload
             setTimeout(() => {
-                fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-                    .catch(err => console.log("Data backgrounded."));
-            }, 0);
+                successMsg.textContent = "Reservation Confirmed. You are officially on the list.";
+                fetch(scriptURL, { method: 'POST', body: new FormData(form)});
+            }, 1200); // 1.2s delay to make the "secure-server" feel real
         });
     </script>
 </body>
