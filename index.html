@@ -19,7 +19,7 @@
         h1 { font-size: 4rem; margin-bottom: 15px; }
         p { color: #86868b; margin-bottom: 30px; font-size: 1.2rem; }
 
-        /* --- Interactive Button --- */
+        /* --- Addicting Interactive Doot Button --- */
         .interactive-button-container { 
             margin: 40px 0; 
             cursor: pointer; 
@@ -59,8 +59,8 @@
         <p>Tap and hold to doot.</p>
 
         <div class="cta-container" id="reserve">
-            <form class="email-capture-wrapper" id="newsletterForm">
-                <input type="email" class="premium-input" placeholder="Enter your email" required id="emailInput">
+            <form class="email-capture-wrapper" action="https://formspree.io/f/YOUR_UNIQUE_ID" method="POST" id="newsletterForm">
+                <input type="email" name="email" class="premium-input" placeholder="Enter your email" required id="emailInput">
                 <button type="submit" class="action-btn" id="submitBtn">Join Waitlist</button>
             </form>
         </div>
@@ -81,7 +81,6 @@
         }
 
         function releaseButton() {
-            // Only play "out" sound if the button was actually in the "down" state
             if (buttonImg.src.includes('dootdown.png')) {
                 buttonImg.src = 'dootup.png';
                 dootOutAudio.currentTime = 0;
@@ -99,13 +98,6 @@
             pressButton(); 
         });
         buttonImg.addEventListener('touchend', releaseButton);
-
-        // Form
-        document.getElementById('newsletterForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert("Thank you! You're on the list.");
-            document.getElementById('emailInput').value = '';
-        });
     </script>
 </body>
 </html>
