@@ -9,20 +9,20 @@
         body { background-color: #000; color: #fff; }
         
         /* Header */
-        header { position: fixed; top: 0; width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        header { position: fixed; top: 0; width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .logo { font-weight: 700; font-size: 1.2rem; }
-        .nav-btn { background: #dfc19b; color: #000; padding: 8px 20px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none; transition: opacity 0.2s; }
+        .nav-btn { background: #dfc19b; color: #000; padding: 8px 20px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none; cursor: pointer; }
 
-        /* Main Content */
-        .section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 20px; text-align: center; }
-        h1 { font-size: 3rem; margin-bottom: 2rem; }
+        /* Main Hero Section */
+        .section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 20px; text-align: center; }
+        h1 { font-size: 3rem; margin-bottom: 1rem; }
 
-        .interactive-button-container { cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); margin-bottom: 1rem; }
-        .interactive-button-container img { max-width: 250px; width: 100%; }
+        /* Button & Form Container */
+        .interactive-button-container { cursor: pointer; touch-action: manipulation; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); margin: 30px 0; }
+        .interactive-button-container img { max-width: 280px; width: 100%; pointer-events: auto; }
         .interactive-button-container:active { transform: scale(0.95); }
 
-        /* Email List Area */
-        .cta-container { background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 30px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; max-width: 450px; }
+        .cta-container { background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 30px; backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; max-width: 450px; }
         .email-capture-wrapper { display: flex; gap: 10px; }
         .premium-input { flex: 1; padding: 15px 20px; border-radius: 25px; border: none; background: transparent; color: #fff; outline: none; }
         .action-btn { background: #dfc19b; border: none; padding: 15px 25px; border-radius: 25px; font-weight: 700; color: #000; cursor: pointer; }
@@ -37,16 +37,13 @@
     </header>
 
     <main>
-        <section class="section" id="hero">
+        <section class="section" id="waitlist">
             <h1>The Doot Button</h1>
+            
             <div class="interactive-button-container" id="dootTrigger">
                 <img src="dootup.png" id="dootImage" alt="Doot Button">
             </div>
-            <p style="color: #666;">Scroll down to join the waitlist</p>
-        </section>
 
-        <section class="section" id="waitlist">
-            <h1>Reserve Yours</h1>
             <div class="cta-container">
                 <form id="newsletterForm" class="email-capture-wrapper">
                     <input type="email" name="Email" class="premium-input" placeholder="Enter your email" required>
@@ -63,7 +60,7 @@
     <script>
         const form = document.getElementById('newsletterForm');
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec';
-
+        
         form.addEventListener('submit', e => {
             e.preventDefault();
             document.getElementById('submitBtn').disabled = true;
@@ -72,8 +69,13 @@
         });
 
         const img = document.getElementById('dootImage');
-        img.addEventListener('mousedown', () => { img.src='dootdown.png'; document.getElementById('dootInAudio').play(); });
-        window.addEventListener('mouseup', () => { if(img.src.includes('dootdown.png')){ img.src='dootup.png'; document.getElementById('dootOutAudio').play(); }});
+        const inAudio = document.getElementById('dootInAudio');
+        const outAudio = document.getElementById('dootOutAudio');
+
+        img.addEventListener('mousedown', () => { img.src='dootdown.png'; inAudio.play(); });
+        window.addEventListener('mouseup', () => { if(img.src.includes('dootdown.png')){ img.src='dootup.png'; outAudio.play(); }});
+        img.addEventListener('touchstart', (e) => { e.preventDefault(); img.src='dootdown.png'; inAudio.play(); }, {passive: false});
+        img.addEventListener('touchend', () => { img.src='dootup.png'; outAudio.play(); });
     </script>
 </body>
 </html>
