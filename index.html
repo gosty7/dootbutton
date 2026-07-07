@@ -74,7 +74,7 @@
         .email-input {
             flex: 1;
             padding: 12px 18px;
-            border-radius: 22px; /* Sleeker rounded edges */
+            border-radius: 22px;
             border: 1px solid rgba(255, 255, 255, 0.15);
             background: rgba(255, 255, 255, 0.04);
             color: #ffffff;
@@ -102,7 +102,8 @@
             font-weight: 500;
             font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            white-space: nowrap;
         }
 
         .submit-btn:hover {
@@ -111,8 +112,12 @@
             box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
         }
 
-        .submit-btn:active {
+        /* Success State for JavaScript Interaction */
+        .submit-btn.success {
+            background-color: #34c759 !important; /* Premium iOS Success Green */
+            color: #ffffff !important;
             transform: translateY(0);
+            box-shadow: none;
         }
 
         /* --- Main Content Section --- */
@@ -159,12 +164,6 @@
             letter-spacing: 0.01em;
         }
 
-        @media (max-width: 768px) {
-            .intro p {
-                font-size: 1.1rem;
-            }
-        }
-
         /* --- Premium Image Gallery --- */
         .gallery {
             width: 100%;
@@ -177,15 +176,13 @@
 
         .gallery-item {
             width: 100%;
-            border-radius: 28px; /* Elegant deep rounding */
+            border-radius: 28px;
             overflow: hidden;
             background: #121212;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Smooth internal scale on hover */
         .gallery-item img {
             width: 100%;
             height: auto;
@@ -218,12 +215,6 @@
             background: linear-gradient(180deg, #ffffff 0%, #a1a1a6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-
-        @media (max-width: 768px) {
-            .bottom-cta h2 {
-                font-size: 1.8rem;
-            }
         }
 
         .bottom-cta p {
@@ -279,250 +270,30 @@
         document.querySelectorAll('.newsletter-form').forEach(form => {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const emailInput = this.querySelector('.email-input').value;
                 
-                // Temporary client-side success notice
-                alert(`Thank you! ${emailInput} has been added to the Doot Button waitlist.`);
+                const emailInput = this.querySelector('.email-input');
+                const submitBtn = this.querySelector('.submit-btn');
+                const originalBtnText = submitBtn.innerText;
                 
-                // Clear inputs across all identical forms
-                document.querySelectorAll('.email-input').forEach(input => input.value = '');
-            });
-        });
-    </script>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOOT BUTTON — Luxury is Coming</title>
-    <style>
-        /* --- Reset & Core Styles --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: #0a0a0a;
-            color: #ffffff;
-            overflow-x: hidden;
-        }
-
-        /* --- Sticky Top Header --- */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(10, 10, 10, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 15px 20px;
-            z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo {
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-        }
-
-        /* --- Email Form Styling --- */
-        .email-form {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        @media (min-width: 600px) {
-            .email-form {
-                width: auto;
-            }
-        }
-
-        .email-input {
-            flex: 1;
-            padding: 10px 16px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .email-input:focus {
-            border-color: #ff3b30; /* Premium red accent to match the button */
-        }
-
-        .submit-btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: none;
-            background-color: #ffffff;
-            color: #000000;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.1s;
-        }
-
-        .submit-btn:hover {
-            background-color: #e5e5e5;
-        }
-
-        .submit-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* --- Main Content Section --- */
-        main {
-            margin-top: 120px; /* Space for the sticky header on mobile */
-            padding: 0 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        @media (min-width: 600px) {
-            main {
-                margin-top: 80px; /* Adjusted space for desktop header layout */
-            }
-        }
-
-        .intro {
-            text-align: center;
-            max-width: 600px;
-            margin: 60px 0;
-        }
-
-        .intro h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            letter-spacing: 0.1em;
-            margin-bottom: 10px;
-        }
-
-        .intro p {
-            color: #8e8e93;
-            font-size: 1.2rem;
-            font-weight: 300;
-        }
-
-        /* --- Image Gallery --- */
-        .gallery {
-            width: 100%;
-            max-width: 1000px;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-            margin-bottom: 80px;
-        }
-
-        .gallery-item {
-            width: 100%;
-            border-radius: 16px;
-            overflow: hidden;
-            background: #1c1c1e;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-        }
-
-        /* --- Bottom Call-To-Action --- */
-        .bottom-cta {
-            text-align: center;
-            padding: 80px 20px;
-            background: linear-gradient(180deg, #0a0a0a 0%, #121212 100%);
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .bottom-cta h2 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            letter-spacing: 0.05em;
-        }
-
-        .bottom-cta p {
-            color: #8e8e93;
-            margin-bottom: 30px;
-            max-width: 500px;
-        }
-
-        .bottom-cta .email-form {
-            max-width: 500px;
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="logo">Doot Button</div>
-        <form class="email-form newsletter-form">
-            <input type="email" class="email-input" placeholder="Enter your email" required>
-            <button type="submit" class="submit-btn">Join Batch One</button>
-        </form>
-    </header>
-
-    <main>
-        <section class="intro">
-            <h1>DOOT</h1>
-            <p>Pinnacle performance. Luxury is coming.</p>
-        </section>
-
-        <section class="gallery">
-            <div class="gallery-item">
-                <img src="doot1.png" alt="Doot Button Concept Showcase 1">
-            </div>
-            <div class="gallery-item">
-                <img src="doot2.png" alt="Doot Button Concept Showcase 2">
-            </div>
-        </section>
-    </main>
-
-    <section class="bottom-cta">
-        <h2>Secure Your Spot</h2>
-        <p>Be the first to know when the initial production run of 500 units goes live. No spam, only luxury.</p>
-        <form class="email-form newsletter-form">
-            <input type="email" class="email-input" placeholder="Enter your email" required>
-            <button type="submit" class="submit-btn">Join Mailing List</button>
-        </form>
-    </section>
-
-    <script>
-        document.querySelectorAll('.newsletter-form').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const emailInput = this.querySelector('.email-input').value;
+                // 1. Capture the email value
+                const enteredEmail = emailInput.value;
+                console.log(`Captured submission for: ${enteredEmail}`);
                 
-                // Temporary client-side success notice
-                alert(`Thank you! ${emailInput} has been added to the Doot Button waitlist.`);
+                // 2. Animate the button to a clean success indicator state
+                submitBtn.classList.add('success');
+                submitBtn.innerText = "✓ Added";
+                submitBtn.disabled = true;
                 
-                // Clear inputs across all identical forms
-                document.querySelectorAll('.email-input').forEach(input => input.value = '');
+                // 3. Clear the input seamlessly
+                emailInput.value = '';
+                emailInput.blur();
+                
+                // 4. Reset the form interaction smoothly after 3.5 seconds
+                setTimeout(() => {
+                    submitBtn.classList.remove('success');
+                    submitBtn.innerText = originalBtnText;
+                    submitBtn.disabled = false;
+                }, 3500);
             });
         });
     </script>
