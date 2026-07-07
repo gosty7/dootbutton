@@ -15,7 +15,15 @@
 
         body { background-color: #000000; color: #f5f5f7; overflow-x: hidden; }
 
-        #top { scroll-margin-top: 100px; }
+        /* Animation class */
+        .breathing {
+            animation: breathe 2.5s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0px rgba(223, 193, 155, 0); }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(223, 193, 155, 0.4); }
+        }
 
         /* Header */
         header { position: fixed; top: 0; width: 100%; padding: 25px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -30,26 +38,25 @@
         h1 { font-size: 3.5rem; margin-bottom: 20px; letter-spacing: -0.04em; }
         p { color: #86868b; margin-bottom: 40px; font-size: 1.3rem; }
 
-        /* Button Animation */
+        /* Button Container */
         .interactive-button-container { 
             margin: 30px 0; 
             cursor: pointer; 
             user-select: none; 
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            animation: breathe 3s ease-in-out infinite;
+            border-radius: 50%;
+            transition: transform 0.2s ease;
         }
-
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(223, 193, 155, 0)); }
-            50% { transform: scale(1.03); filter: drop-shadow(0 0 15px rgba(223, 193, 155, 0.3)); }
-        }
-
-        .interactive-button-container img { max-width: 360px; width: 100%; height: auto; 
+        
+        .interactive-button-container img { 
+            max-width: 360px; 
+            width: 100%; 
+            height: auto; 
             -webkit-user-drag: none; 
             user-select: none; 
-            -webkit-user-select: none; }
-        
-        .doot-active { transform: scale(0.95) !important; animation: none !important; }
+            -webkit-user-select: none; 
+        }
+
+        .doot-active { transform: scale(0.95) !important; animation: none !important; box-shadow: none !important; }
 
         /* Waitlist & Pulse */
         .cta-container { width: 100%; max-width: 420px; margin-top: 40px; padding: 3px; border-radius: 16px; }
@@ -68,8 +75,6 @@
 </head>
 <body>
 
-    <div id="top"></div>
-
     <header>
         <a href="#" class="home-btn">Doot Button</a>
         <a href="#reserve" class="nav-btn">Join Waitlist</a>
@@ -79,7 +84,7 @@
         <h1>The Doot Button</h1>
         <p>One button. One sound. Infinite satisfaction.</p>
 
-        <div class="interactive-button-container" id="dootTrigger">
+        <div class="interactive-button-container breathing" id="dootTrigger">
             <img src="dootup.png" id="dootImage" alt="Doot Button">
         </div>
 
@@ -109,8 +114,23 @@
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec';
 
         // Sound Interaction
-        function pressButton() { dootTrigger.classList.add('doot-active'); buttonImg.src = 'dootdown.png'; dootOutAudio.pause(); dootOutAudio.currentTime = 0; dootInAudio.currentTime = 0; dootInAudio.play(); }
-        function releaseButton() { dootTrigger.classList.remove('doot-active'); if (buttonImg.src.includes('dootdown.png')) { buttonImg.src = 'dootup.png'; dootInAudio.pause(); dootInAudio.currentTime = 0; dootOutAudio.currentTime = 0; dootOutAudio.play(); } }
+        function pressButton() { 
+            dootTrigger.classList.remove('breathing'); // Stop breathing when clicked
+            dootTrigger.classList.add('doot-active'); 
+            buttonImg.src = 'dootdown.png'; 
+            dootOutAudio.pause(); dootOutAudio.currentTime = 0; 
+            dootInAudio.currentTime = 0; dootInAudio.play(); 
+        }
+
+        function releaseButton() { 
+            dootTrigger.classList.remove('doot-active'); 
+            dootTrigger.classList.add('breathing'); // Resume breathing
+            if (buttonImg.src.includes('dootdown.png')) { 
+                buttonImg.src = 'dootup.png'; 
+                dootInAudio.pause(); dootInAudio.currentTime = 0; 
+                dootOutAudio.currentTime = 0; dootOutAudio.play(); 
+            } 
+        }
 
         buttonImg.addEventListener('mousedown', pressButton);
         window.addEventListener('mouseup', releaseButton);
@@ -120,7 +140,6 @@
         buttonImg.addEventListener('touchend', releaseButton);
         buttonImg.addEventListener('touchcancel', releaseButton);
 
-        // Form Logic
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             form.style.display = 'none'; 
