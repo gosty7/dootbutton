@@ -20,10 +20,10 @@
         h1 { font-size: 4rem; margin-bottom: 15px; letter-spacing: -0.04em; }
         p { color: #86868b; margin-bottom: 40px; font-size: 1.2rem; }
 
-        /* The Button */
+        /* The Button Animation */
         .interactive-button-container { margin: 20px 0; cursor: pointer; user-select: none; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .interactive-button-container img { max-width: 320px; width: 100%; height: auto; }
-        .interactive-button-container:active { transform: scale(0.95); }
+        .doot-active { transform: scale(0.95) !important; }
 
         /* Waitlist Container */
         .cta-container { width: 100%; max-width: 380px; margin-top: 40px; }
@@ -40,7 +40,6 @@
 
     <header>
         <div class="logo">Doot Button</div>
-        <!-- Pointed to #reserve for smooth scroll -->
         <a href="#reserve" class="nav-btn">Join Waitlist</a>
     </header>
 
@@ -68,6 +67,7 @@
 
     <script>
         const buttonImg = document.getElementById('dootImage');
+        const dootTrigger = document.getElementById('dootTrigger');
         const dootInAudio = document.getElementById('dootInAudio');
         const dootOutAudio = document.getElementById('dootOutAudio');
         const form = document.getElementById('newsletterForm');
@@ -76,21 +76,37 @@
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec';
 
-        // Sound Interaction
-        function pressButton() { buttonImg.src = 'dootdown.png'; dootInAudio.currentTime = 0; dootInAudio.play(); }
-        function releaseButton() { if (buttonImg.src.includes('dootdown.png')) { buttonImg.src = 'dootup.png'; dootOutAudio.currentTime = 0; dootOutAudio.play(); } }
+        // Unified Interaction
+        function pressButton() { 
+            dootTrigger.classList.add('doot-active'); 
+            buttonImg.src = 'dootdown.png'; 
+            dootInAudio.currentTime = 0; 
+            dootInAudio.play(); 
+        }
 
+        function releaseButton() { 
+            dootTrigger.classList.remove('doot-active');
+            if (buttonImg.src.includes('dootdown.png')) { 
+                buttonImg.src = 'dootup.png'; 
+                dootOutAudio.currentTime = 0; 
+                dootOutAudio.play(); 
+            } 
+        }
+
+        // Desktop
         buttonImg.addEventListener('mousedown', pressButton);
         window.addEventListener('mouseup', releaseButton);
-        buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); });
+
+        // Mobile
+        buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); }, {passive: false});
         buttonImg.addEventListener('touchend', releaseButton);
+        buttonImg.addEventListener('touchcancel', releaseButton);
 
         // Submission Logic
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             form.style.display = 'none'; 
             successMsg.style.display = 'block';
-            
             statusText.textContent = "Joining waitlist...";
             
             setTimeout(() => {
