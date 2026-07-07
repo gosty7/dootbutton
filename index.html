@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Doot Button</title>
     
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon-96x96.png">
 
     <style>
@@ -14,10 +13,12 @@
             -webkit-font-smoothing: antialiased; }
         body { background-color: #000000; color: #f5f5f7; overflow-x: hidden; }
 
+        /* The Scroll Anchor Fix */
+        #top { scroll-margin-top: 100px; }
+
         /* Header */
         header { position: fixed; top: 0; width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
         
-        /* Home/Top Button */
         .home-btn { font-weight: 800; letter-spacing: -0.04em; font-size: 1.25rem; color: #f5f5f7; text-decoration: none; transition: color 0.2s; cursor: pointer; }
         .home-btn:hover { color: #dfc19b; }
         
@@ -28,12 +29,12 @@
         h1 { font-size: 4rem; margin-bottom: 15px; letter-spacing: -0.04em; }
         p { color: #86868b; margin-bottom: 40px; font-size: 1.2rem; }
 
-        /* The Button Animation */
+        /* Button Animation */
         .interactive-button-container { margin: 20px 0; cursor: pointer; user-select: none; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .interactive-button-container img { max-width: 320px; width: 100%; height: auto; }
         .doot-active { transform: scale(0.95) !important; }
 
-        /* Waitlist & Pulse Animation */
+        /* Waitlist & Pulse */
         .cta-container { width: 100%; max-width: 380px; margin-top: 40px; padding: 2px; border-radius: 14px; }
         .pulse-border { border: 2px solid transparent; animation: pulse-red 2s infinite; }
         @keyframes pulse-red {
@@ -50,11 +51,10 @@
 </head>
 <body>
 
-    <!-- Target Anchor for Smooth Scroll -->
     <div id="top"></div>
 
     <header>
-        <a href="#top" class="home-btn">Doot Button</a>
+        <a href="#" class="home-btn">Doot Button</a>
         <a href="#reserve" class="nav-btn">Join Waitlist</a>
     </header>
 
@@ -91,41 +91,22 @@
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec';
 
-        // High-Speed Interaction
-        function pressButton() { 
-            dootTrigger.classList.add('doot-active'); 
-            buttonImg.src = 'dootdown.png'; 
-            dootOutAudio.pause();
-            dootOutAudio.currentTime = 0;
-            dootInAudio.currentTime = 0; 
-            dootInAudio.play(); 
-        }
+        // Sound Interaction
+        function pressButton() { dootTrigger.classList.add('doot-active'); buttonImg.src = 'dootdown.png'; dootOutAudio.pause(); dootOutAudio.currentTime = 0; dootInAudio.currentTime = 0; dootInAudio.play(); }
+        function releaseButton() { dootTrigger.classList.remove('doot-active'); if (buttonImg.src.includes('dootdown.png')) { buttonImg.src = 'dootup.png'; dootInAudio.pause(); dootInAudio.currentTime = 0; dootOutAudio.currentTime = 0; dootOutAudio.play(); } }
 
-        function releaseButton() { 
-            dootTrigger.classList.remove('doot-active');
-            if (buttonImg.src.includes('dootdown.png')) { 
-                buttonImg.src = 'dootup.png'; 
-                dootInAudio.pause();
-                dootInAudio.currentTime = 0;
-                dootOutAudio.currentTime = 0; 
-                dootOutAudio.play(); 
-            } 
-        }
-
-        // Event Listeners
         buttonImg.addEventListener('mousedown', pressButton);
         window.addEventListener('mouseup', releaseButton);
         buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); }, {passive: false});
         buttonImg.addEventListener('touchend', releaseButton);
         buttonImg.addEventListener('touchcancel', releaseButton);
 
-        // Submission Logic
+        // Form Logic
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             form.style.display = 'none'; 
             successMsg.style.display = 'block';
             statusText.textContent = "Joining waitlist...";
-            
             setTimeout(() => {
                 statusText.textContent = "Thanks for Joining the Waitlist. Expect More Info Soon!";
                 fetch(scriptURL, { method: 'POST', body: new FormData(form)});
