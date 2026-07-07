@@ -13,7 +13,6 @@
             -webkit-font-smoothing: antialiased; }
         body { background-color: #000000; color: #f5f5f7; overflow-x: hidden; }
 
-        /* The Scroll Anchor Fix */
         #top { scroll-margin-top: 100px; }
 
         /* Header */
@@ -31,7 +30,11 @@
 
         /* Button Animation */
         .interactive-button-container { margin: 20px 0; cursor: pointer; user-select: none; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .interactive-button-container img { max-width: 320px; width: 100%; height: auto; }
+        .interactive-button-container img { max-width: 320px; width: 100%; height: auto; 
+            /* FIX: Disable browser drag behavior */
+            -webkit-user-drag: none; 
+            user-select: none; 
+            -webkit-user-select: none; }
         .doot-active { transform: scale(0.95) !important; }
 
         /* Waitlist & Pulse */
@@ -95,8 +98,11 @@
         function pressButton() { dootTrigger.classList.add('doot-active'); buttonImg.src = 'dootdown.png'; dootOutAudio.pause(); dootOutAudio.currentTime = 0; dootInAudio.currentTime = 0; dootInAudio.play(); }
         function releaseButton() { dootTrigger.classList.remove('doot-active'); if (buttonImg.src.includes('dootdown.png')) { buttonImg.src = 'dootup.png'; dootInAudio.pause(); dootInAudio.currentTime = 0; dootOutAudio.currentTime = 0; dootOutAudio.play(); } }
 
+        // Added 'mouseleave' to force-reset if the mouse drags off the button
         buttonImg.addEventListener('mousedown', pressButton);
         window.addEventListener('mouseup', releaseButton);
+        buttonImg.addEventListener('mouseleave', releaseButton); 
+        
         buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); }, {passive: false});
         buttonImg.addEventListener('touchend', releaseButton);
         buttonImg.addEventListener('touchcancel', releaseButton);
