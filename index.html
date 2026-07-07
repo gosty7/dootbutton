@@ -15,30 +15,35 @@
 
         body { background-color: #000000; color: #f5f5f7; overflow-x: hidden; }
 
-        .breathing { animation: breathe 2.5s ease-in-out infinite; }
-
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 0px rgba(223, 193, 155, 0); }
-            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(223, 193, 155, 0.4); }
+        /* Initial "Attention" Animation (Runs once on load) */
+        .attention-grabber { animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         header { position: fixed; top: 0; width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        
         .home-btn { font-weight: 800; font-size: 1.25rem; color: #f5f5f7; text-decoration: none; }
         .nav-btn { background: #dfc19b; color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; cursor: pointer; }
 
-        /* HERO: Reduced top padding to move button up */
-        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 20px 50px 20px; text-align: center; }
+        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 90px 20px 50px 20px; text-align: center; }
         
         h1 { font-size: 3rem; margin-bottom: 10px; }
-        .hint-text { color: #dfc19b; font-weight: 600; font-size: 1rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.1em; }
+        .hint-text { color: #dfc19b; font-weight: 600; font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
         p { color: #86868b; margin-bottom: 20px; font-size: 1rem; }
 
-        .interactive-button-container { margin: 10px 0; cursor: pointer; border-radius: 50%; transition: transform 0.2s ease; }
+        /* Static interactive button */
+        .interactive-button-container { 
+            margin: 10px 0; 
+            cursor: pointer; 
+            transition: transform 0.2s ease, filter 0.2s ease; 
+        }
+        .interactive-button-container:hover { transform: scale(1.02); filter: brightness(1.1); }
         .interactive-button-container img { max-width: 280px; width: 100%; height: auto; -webkit-user-drag: none; }
-        .doot-active { transform: scale(0.95) !important; animation: none !important; box-shadow: none !important; }
+        
+        .doot-active { transform: scale(0.95) !important; filter: brightness(0.8) !important; }
 
-        .cta-container { width: 100%; max-width: 380px; margin-top: 20px; padding: 2px; }
+        .cta-container { width: 100%; max-width: 380px; margin-top: 20px; }
         .premium-input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #333; background: #111; color: white; margin-bottom: 10px; }
         .action-btn { width: 100%; background: #dfc19b; border: none; padding: 15px; border-radius: 12px; font-weight: 700; color: #000; cursor: pointer; }
         
@@ -56,8 +61,9 @@
         <h1>The Doot Button</h1>
         <p>One button. One sound. Infinite satisfaction.</p>
         
-        <div class="hint-text">Press the button below</div>
-        <div class="interactive-button-container breathing" id="dootTrigger">
+        <div class="hint-text">Tap to Doot</div>
+        <!-- Static button with a one-time pop-in animation -->
+        <div class="interactive-button-container attention-grabber" id="dootTrigger">
             <img src="dootup.png" id="dootImage" alt="Doot Button">
         </div>
 
@@ -84,7 +90,6 @@
         const successMsg = document.getElementById('successMessage');
 
         function pressButton() { 
-            dootTrigger.classList.remove('breathing'); 
             dootTrigger.classList.add('doot-active'); 
             buttonImg.src = 'dootdown.png'; 
             dootOutAudio.pause(); dootOutAudio.currentTime = 0; 
@@ -93,7 +98,6 @@
 
         function releaseButton() { 
             dootTrigger.classList.remove('doot-active'); 
-            dootTrigger.classList.add('breathing'); 
             if (buttonImg.src.includes('dootdown.png')) { 
                 buttonImg.src = 'dootup.png'; 
                 dootInAudio.pause(); dootInAudio.currentTime = 0; 
