@@ -3,231 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOOT BUTTON — Luxury is Coming</title>
+    <title>The Doot Button — Simplicity. Perfected.</title>
     <style>
-        /* --- Reset & Core Styles --- */
+        /* --- Core Config & Typography --- */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
             background-color: #000000;
             color: #f5f5f7;
             overflow-x: hidden;
-            letter-spacing: -0.01em;
         }
 
-        /* --- Sticky Top Header --- */
+        /* --- Elegant Global Elements --- */
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* --- Premium Top Navigation --- */
         header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            padding: 20px 40px;
+            padding: 18px 40px;
             z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        @media (max-width: 768px) {
-            header {
-                padding: 15px 20px;
-            }
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .logo {
             font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            background: linear-gradient(180deg, #ffffff 0%, #a1a1a6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* --- Classy Email Form Styling --- */
-        .email-form {
-            display: flex;
-            gap: 12px;
-            width: 100%;
-            max-width: 380px;
-        }
-
-        @media (min-width: 600px) {
-            .email-form {
-                width: auto;
-            }
-        }
-
-        .email-input {
-            flex: 1;
-            padding: 12px 18px;
-            border-radius: 22px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.04);
-            color: #ffffff;
-            font-size: 0.9rem;
-            outline: none;
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        .email-input:focus {
-            border-color: rgba(255, 59, 48, 0.8);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 15px rgba(255, 59, 48, 0.15);
-        }
-
-        .email-input::placeholder {
-            color: #6e6e73;
-        }
-
-        .submit-btn {
-            padding: 12px 24px;
-            border-radius: 22px;
-            border: none;
-            background-color: #ffffff;
-            color: #000000;
             font-weight: 500;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-            white-space: nowrap;
+            letter-spacing: -0.01em;
         }
 
-        .submit-btn:hover {
-            background-color: #f5f5f7;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
-        }
-
-        /* Success State for JavaScript Interaction */
-        .submit-btn.success {
-            background-color: #34c759 !important; /* Premium iOS Success Green */
-            color: #ffffff !important;
-            transform: translateY(0);
-            box-shadow: none;
-        }
-
-        /* --- Main Content Section --- */
-        main {
-            margin-top: 140px;
-            padding: 0 20px;
+        nav {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            gap: 30px;
         }
 
-        @media (min-width: 600px) {
-            main {
-                margin-top: 100px;
-            }
+        nav a {
+            font-size: 0.75rem;
+            color: #a1a1a6;
+            letter-spacing: 0.02em;
+            transition: color 0.3s;
         }
 
-        .intro {
-            text-align: center;
-            max-width: 800px;
-            margin: 80px 0 100px 0;
-        }
-
-        .intro h1 {
-            font-size: 4.5rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 16px;
-            background: linear-gradient(180deg, #ffffff 30%, rgba(255, 255, 255, 0.7) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        nav a:hover {
+            color: #ffffff;
         }
 
         @media (max-width: 768px) {
-            .intro h1 {
-                font-size: 3rem;
-            }
+            nav { display: none; } /* Kept clean on mobile */
         }
 
-        .intro p {
-            color: #86868b;
-            font-size: 1.4rem;
-            font-weight: 400;
-            letter-spacing: 0.01em;
+        .nav-btn {
+            background: #dfc19b; /* Elegant champagne gold */
+            color: #000000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: opacity 0.3s;
         }
 
-        /* --- Premium Image Gallery --- */
-        .gallery {
-            width: 100%;
-            max-width: 1080px;
-            display: flex;
-            flex-direction: column;
-            gap: 60px;
-            margin-bottom: 120px;
+        .nav-btn:hover {
+            opacity: 0.9;
         }
 
-        .gallery-item {
-            width: 100%;
-            border-radius: 28px;
-            overflow: hidden;
-            background: #121212;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.02);
-        }
-
-        /* --- Bottom Premium Call-To-Action --- */
-        .bottom-cta {
-            text-align: center;
-            padding: 120px 20px;
-            background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
-            width: 100%;
+        /* --- Hero Container with Background --- */
+        .hero {
+            position: relative;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 60px 20px;
+            /* Note: Place your background art (with skeletons) into doot-bg.png */
+            background: radial-gradient(circle at center, #111111 0%, #000000 70%), url('doot-bg.png');
+            background-blend-mode: screen;
+            background-size: cover;
+            background-position: center;
         }
 
-        .bottom-cta h2 {
-            font-size: 2.5rem;
+        .tagline-intro {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            color: #dfc19b;
+            margin-bottom: 12px;
             font-weight: 600;
+        }
+
+        .hero h1 {
+            font-size: 4.8rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
             margin-bottom: 16px;
-            letter-spacing: -0.01em;
-            background: linear-gradient(180deg, #ffffff 0%, #a1a1a6 100%);
+            background: linear-gradient(180deg, #ffffff 40%, #e3e3e3 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .bottom-cta p {
+        .hero-subtitle {
             color: #86868b;
-            font-size: 1.1rem;
+            font-size: 1.4rem;
+            font-weight: 400;
+            line-height: 1.4;
+            max-width: 500px;
             margin-bottom: 40px;
-            max-width: 540px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+        }
+
+        /* --- Central Interactive Doot Button Element --- */
+        .interactive-button-container {
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .interactive-button-container:hover {
+            transform: scale(1.03);
+        }
+
+        .interactive-button-container img {
+            max-width: 340px;
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .tap-to-doot {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #dfc19b;
+            font-size: 0.9rem;
+            font-weight: 400;
+            margin-bottom: 80px;
+        }
+
+        .tap-to-doot::before {
+            content: '';
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background-color: #dfc19b;
+            border-radius: 50%;
+            /* Subtle pulse mimicking the dot in your layout */
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        /* --- Three-Column Features Card --- */
+        .features-grid {
+            width: 100%;
+            max-width: 980px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 18px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 40px 20px;
+            margin-bottom: 100px;
+        }
+
+        .feature-card {
+            padding: 0 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Divider lines between columns */
+        .feature-card:not(:last-child) {
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .features-grid { grid-template-columns: 1fr; gap: 40px; padding: 40px 0; }
+            .feature-card:not(:last-child) { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 40px; }
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            color: #dfc19b;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: 0.01em;
+        }
+
+        .feature-card p {
+            color: #86868b;
+            font-size: 0.9rem;
             line-height: 1.5;
         }
 
-        .bottom-cta .email-form {
-            max-width: 440px;
+        /* --- Secondary Showcase Section --- */
+        .showcase {
+            text-align: center;
+            padding: 60px 20px 140px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .showcase h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .showcase h2 span {
+            color: #dfc19b;
+            display: block;
+        }
+
+        .showcase-text {
+            color: #86868b;
+            font-size: 1.05rem;
+            max-width: 500px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        /* --- Classy Main CTA Button & Email Input Layout --- */
+        .cta-container {
             width: 100%;
+            max-width: 460px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .email-capture-wrapper {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .premium-input {
+            flex: 1;
+            padding: 16px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.03);
+            color: #ffffff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .premium-input:focus {
+            border-color: #dfc19b;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .action-btn {
+            background: #dfc19b;
+            color: #000000;
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            white-space: nowrap;
+        }
+
+        .action-btn:hover { opacity: 0.95; }
+        .action-btn:active { transform: scale(0.98); }
+        .action-btn.success { background: #34c759; color: white; }
+
+        .limited-supply {
+            color: #6e6e73;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            letter-spacing: 0.02em;
+        }
+
+        /* --- Footer Brand Seal --- */
+        footer {
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .footer-seal {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.35em;
+            color: #424245;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
         }
     </style>
 </head>
@@ -235,68 +338,107 @@
 
     <header>
         <div class="logo">Doot Button</div>
-        <form class="email-form newsletter-form">
-            <input type="email" class="email-input" placeholder="Enter your email" required>
-            <button type="submit" class="submit-btn">Join Batch One</button>
-        </form>
+        <nav>
+            <a href="#">Overview</a>
+            <a href="#">Design</a>
+            <a href="#">Sound</a>
+            <a href="#">Experience</a>
+            <a href="#">Get Yours</a>
+        </nav>
+        <a href="#reserve" class="nav-btn">Buy Now</a>
     </header>
 
-    <main>
-        <section class="intro">
-            <h1>DOOT</h1>
-            <p>Pinnacle performance. Luxury is coming.</p>
-        </section>
+    <section class="hero">
+        <p class="tagline-intro">Introducing</p>
+        <h1>The Doot Button</h1>
+        <p class="hero-subtitle">One button. One sound.<br>Infinite satisfaction.</p>
 
-        <section class="gallery">
-            <div class="gallery-item">
-                <img src="doot1.png" alt="Doot Button Concept Showcase 1">
-            </div>
-            <div class="gallery-item">
-                <img src="doot2.png" alt="Doot Button Concept Showcase 2">
-            </div>
-        </section>
-    </main>
+        <div class="interactive-button-container" id="dootTrigger">
+            <img src="doot1.png" alt="The Premium Doot Button">
+        </div>
 
-    <section class="bottom-cta">
-        <h2>Secure Your Spot</h2>
-        <p>Be the first to know when the initial production run of 500 units goes live. No spam, only luxury.</p>
-        <form class="email-form newsletter-form">
-            <input type="email" class="email-input" placeholder="Enter your email" required>
-            <button type="submit" class="submit-btn">Join Mailing List</button>
-        </form>
+        <div class="tap-to-doot">Tap to doot</div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📯</div>
+                <h3>Icon Sound</h3>
+                <p>The legendary doot that started it all.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👆</div>
+                <h3>Instant Doot</h3>
+                <p>Press once.<br>Doot forever.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Premium Build</h3>
+                <p>Built to last.<br>Ready to doot.</p>
+            </div>
+        </div>
     </section>
 
+    <section class="showcase" id="reserve">
+        <h2>Simplicity.<span>Perfected.</span></h2>
+        <p class="showcase-text">We took the most important sound in internet history and put it behind the most satisfying button you’ll ever press.</p>
+
+        <div class="cta-container">
+            <form class="email-capture-wrapper" id="newsletterForm">
+                <input type="email" class="premium-input" placeholder="Enter your email" required id="emailInput">
+                <button type="submit" class="action-btn" id="submitBtn">Get Your Doot Button</button>
+            </form>
+            <p class="limited-supply">Limited supply. Infinite doots.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-seal">
+            <span>Doot Is</span> 📯 <span>Eternal</span>
+        </div>
+    </footer>
+
+    <audio id="dootAudio" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
+
     <script>
-        document.querySelectorAll('.newsletter-form').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const emailInput = this.querySelector('.email-input');
-                const submitBtn = this.querySelector('.submit-btn');
-                const originalBtnText = submitBtn.innerText;
-                
-                // 1. Capture the email value
-                const enteredEmail = emailInput.value;
-                console.log(`Captured submission for: ${enteredEmail}`);
-                
-                // 2. Animate the button to a clean success indicator state
-                submitBtn.classList.add('success');
-                submitBtn.innerText = "✓ Added";
-                submitBtn.disabled = true;
-                
-                // 3. Clear the input seamlessly
-                emailInput.value = '';
-                emailInput.blur();
-                
-                // 4. Reset the form interaction smoothly after 3.5 seconds
-                setTimeout(() => {
-                    submitBtn.classList.remove('success');
-                    submitBtn.innerText = originalBtnText;
-                    submitBtn.disabled = false;
-                }, 3500);
-            });
+        // 1. Interactive Button Click Sound Functionality
+        const dootTrigger = document.getElementById('dootTrigger');
+        const dootAudio = document.getElementById('dootAudio');
+
+        dootTrigger.addEventListener('click', () => {
+            // Reset to beginning if clicked rapidly
+            dootAudio.currentTime = 0; 
+            dootAudio.play().catch(err => console.log("Audio playback waiting for user context interaction setup."));
+            
+            // Physical impact visual recoil effect
+            dootTrigger.style.transform = "scale(0.96)";
+            setTimeout(() => {
+                dootTrigger.style.transform = "scale(1)";
+            }, 100);
+        });
+
+        // 2. Sophisticated Form Interactive Handle State
+        const form = document.getElementById('newsletterForm');
+        const emailInput = document.getElementById('emailInput');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log(`Secured waitlist capture entry: ${emailInput.value}`);
+            
+            // Smoothly switch state style parameters
+            submitBtn.classList.add('success');
+            submitBtn.innerText = "✓ Reserved";
+            submitBtn.disabled = true;
+            
+            emailInput.value = '';
+            emailInput.blur();
+            
+            setTimeout(() => {
+                submitBtn.classList.remove('success');
+                submitBtn.innerText = "Get Your Doot Button";
+                submitBtn.disabled = false;
+            }, 4000);
         });
     </script>
-
 </body>
 </html>
