@@ -14,7 +14,6 @@
         h1 { font-size: 4rem; margin-bottom: 15px; }
         p { color: #86868b; margin-bottom: 30px; font-size: 1.2rem; }
         
-        /* The single, official button container */
         .interactive-button-container { margin: 40px 0; cursor: pointer; user-select: none; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .interactive-button-container img { max-width: 320px; width: 100%; height: auto; transition: transform 0.2s ease-out; }
         .interactive-button-container:active { transform: scale(0.95); }
@@ -37,15 +36,14 @@
         <h1>The Doot Button</h1>
         <p>One button. One sound. Infinite satisfaction.</p>
 
-        <!-- THIS IS THE ONLY BUTTON -->
         <div class="interactive-button-container" id="dootTrigger">
             <img src="dootup.png" id="dootImage" alt="Doot Button">
         </div>
         <p>Tap and hold to doot.</p>
 
         <div class="cta-container" id="reserve">
-            <form class="email-capture-wrapper" action="https://formspree.io/f/mdarjpob" method="POST" id="newsletterForm">
-                <input type="email" name="email" class="premium-input" placeholder="Enter your email" required id="emailInput">
+            <form id="newsletterForm" class="email-capture-wrapper">
+                <input type="email" name="Email" class="premium-input" placeholder="Enter your email" required id="emailInput">
                 <button type="submit" class="action-btn" id="submitBtn">Join Waitlist</button>
             </form>
             <p id="successMessage" style="display:none; color: #dfc19b; margin-top: 20px;">Thanks! You're on the list.</p>
@@ -62,6 +60,7 @@
         const form = document.getElementById('newsletterForm');
         const successMsg = document.getElementById('successMessage');
 
+        // Button Interactions
         function pressButton() {
             buttonImg.src = 'dootdown.png';
             dootInAudio.currentTime = 0;
@@ -79,11 +78,17 @@
         buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); });
         buttonImg.addEventListener('touchend', releaseButton);
 
-        form.addEventListener('submit', function(e) {
-            setTimeout(() => {
-                form.style.display = 'none';
-                successMsg.style.display = 'block';
-            }, 500);
+        // Google Sheet Submission
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec';
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => {
+                    form.style.display = 'none';
+                    successMsg.style.display = 'block';
+                })
+                .catch(error => console.error('Error!', error.message));
         });
     </script>
 </body>
