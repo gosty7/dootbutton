@@ -8,10 +8,11 @@
     <link rel="icon" type="image/png" href="favicon-96x96.png">
 
     <style>
+        /* Increased font-size for better readability and 'size' presence */
         * { box-sizing: border-box; margin: 0; padding: 0; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             -webkit-font-smoothing: antialiased; 
-            font-size: 110%; }
+            font-size: 115%; }
 
         body { background-color: #000000; color: #f5f5f7; overflow-x: hidden; }
 
@@ -21,33 +22,33 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        header { position: fixed; top: 0; width: 100%; padding: 17px 22px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .home-btn { font-weight: 800; font-size: 1.1rem; color: #f5f5f7; text-decoration: none; }
-        .nav-btn { background: #dfc19b; color: #000; padding: 7px 14px; border-radius: 17px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; cursor: pointer; text-decoration: none; }
+        header { position: fixed; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .home-btn { font-weight: 800; font-size: 1.2rem; color: #f5f5f7; text-decoration: none; }
+        .nav-btn { background: #dfc19b; color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; cursor: pointer; text-decoration: none; }
 
-        /* Hero shifted upward by 1 inch relative to view */
-        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 80px 22px 45px 22px; text-align: center; }
+        /* Hero: Kept upward-shifted, but padding adjusted to keep content large */
+        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 120px 25px 40px 25px; text-align: center; }
         
-        h1 { font-size: 2.5rem; margin-bottom: 9px; }
-        .hint-text { color: #dfc19b; font-weight: 600; font-size: 0.9rem; margin-bottom: 9px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
-        p { color: #86868b; margin-bottom: 22px; font-size: 1rem; }
+        h1 { font-size: 3rem; margin-bottom: 12px; }
+        .hint-text { color: #dfc19b; font-weight: 600; font-size: 1rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
+        p { color: #86868b; margin-bottom: 30px; font-size: 1.1rem; }
 
-        .interactive-button-container { margin: 6px 0; cursor: pointer; transition: transform 0.2s ease; }
-        .interactive-button-container img { max-width: 220px; width: 100%; height: auto; -webkit-user-drag: none; }
+        .interactive-button-container { margin: 10px 0; cursor: pointer; transition: transform 0.2s ease; }
+        .interactive-button-container img { max-width: 260px; width: 100%; height: auto; -webkit-user-drag: none; }
         .doot-active { transform: scale(0.95) !important; }
 
-        .cta-container { width: 100%; max-width: 310px; margin-top: 28px; }
-        .input-wrapper { padding: 2px; border-radius: 11px; border: 2px solid transparent; animation: pulse-red 2s infinite; }
+        .cta-container { width: 100%; max-width: 320px; margin-top: 30px; }
+        .input-wrapper { padding: 2px; border-radius: 12px; border: 2px solid transparent; animation: pulse-red 2s infinite; }
         @keyframes pulse-red {
             0% { border-color: rgba(255, 50, 50, 0.2); }
             50% { border-color: rgba(255, 50, 50, 0.6); }
             100% { border-color: rgba(255, 50, 50, 0.2); }
         }
 
-        .premium-input { width: 100%; padding: 11px; border-radius: 9px; border: 1px solid #333; background: #111; color: white; margin-bottom: 9px; font-size: 0.95rem; }
-        .action-btn { width: 100%; background: #dfc19b; border: none; padding: 11px; border-radius: 9px; font-weight: 700; color: #000; cursor: pointer; font-size: 0.95rem; margin-top: 9px; }
+        .premium-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #333; background: #111; color: white; margin-bottom: 10px; font-size: 1rem; }
+        .action-btn { width: 100%; background: #dfc19b; border: none; padding: 12px; border-radius: 10px; font-weight: 700; color: #000; cursor: pointer; font-size: 1rem; margin-top: 5px; }
         
-        #successMessage { display: none; padding: 11px; color: #fff; font-size: 0.95rem; }
+        #successMessage { display: none; padding: 12px; color: #fff; font-size: 1rem; }
     </style>
 </head>
 <body>
