@@ -5,33 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Doot Button — Own the Satisfaction.</title>
     <style>
-        /* Modern, high-end typography setup */
         * { box-sizing: border-box; margin: 0; padding: 0; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             -webkit-font-smoothing: antialiased; }
         body { background-color: #000000; color: #f5f5f7; overflow-x: hidden; }
 
-        /* Header - Minimalist */
+        /* Header */
         header { position: fixed; top: 0; width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .logo { font-weight: 700; letter-spacing: -0.02em; font-size: 1.1rem; }
-        .nav-btn { background: #dfc19b; color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; }
+        .nav-btn { background: #dfc19b; color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; }
 
-        /* Hero - Focus on "Buying" mindset */
+        /* Hero Section */
         .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 20px; text-align: center; }
         h1 { font-size: 3.5rem; margin-bottom: 15px; letter-spacing: -0.04em; }
-        p { color: #86868b; margin-bottom: 40px; font-size: 1.1rem; max-width: 400px; line-height: 1.5; }
+        p { color: #86868b; margin-bottom: 40px; font-size: 1.1rem; max-width: 400px; line-height: 1.6; }
 
-        /* Interactive Button */
+        /* The Button */
         .interactive-button-container { margin: 20px 0; cursor: pointer; user-select: none; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .interactive-button-container img { max-width: 320px; width: 100%; height: auto; }
         .interactive-button-container:active { transform: scale(0.95); }
 
-        /* Waitlist - Psychological "Connection" state */
+        /* Waitlist Container */
         .cta-container { width: 100%; max-width: 380px; margin-top: 40px; }
-        .premium-input { width: 100%; padding: 16px 20px; border-radius: 12px; border: 1px solid #333; background: #111; color: white; outline: none; font-size: 1rem; margin-bottom: 15px; }
+        .premium-input { width: 100%; padding: 16px 20px; border-radius: 12px; border: 1px solid #333; background: #111; color: white; outline: none; font-size: 1rem; margin-bottom: 15px; transition: border 0.3s; }
+        .premium-input:focus { border: 1px solid #dfc19b; }
         .action-btn { width: 100%; background: #dfc19b; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 1rem; color: #000; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: background 0.3s; }
         .action-btn:hover { background: #c5a682; }
-        #successMessage { display: none; color: #dfc19b; font-weight: 500; font-size: 1.1rem; padding: 20px; border: 1px solid #dfc19b; border-radius: 12px; }
+
+        /* Success Message - The "Classy" look */
+        #successMessage { display: none; color: #fff; font-weight: 400; font-size: 1rem; padding: 20px; border-top: 1px solid #333; }
+        .status-accent { color: #dfc19b; }
     </style>
 </head>
 <body>
@@ -43,7 +46,7 @@
 
     <section class="hero">
         <h1>Simplicity, Perfected.</h1>
-        <p>The Doot Button is not just a tool—it is an experience. Join the early access program to secure your unit.</p>
+        <p>The Doot Button is not merely a tool; it is a tactile experience. Join the exclusive reservation list to be among the first to own yours.</p>
 
         <div class="interactive-button-container" id="dootTrigger">
             <img src="dootup.png" id="dootImage" alt="Doot Button">
@@ -51,10 +54,12 @@
 
         <div class="cta-container" id="reserve">
             <form id="newsletterForm">
-                <input type="email" name="Email" class="premium-input" placeholder="Your professional email" required id="emailInput">
-                <button type="submit" class="action-btn" id="submitBtn">Join Early Access</button>
+                <input type="email" name="Email" class="premium-input" placeholder="Your preferred email address" required>
+                <button type="submit" class="action-btn" id="submitBtn">Reserve Unit</button>
             </form>
-            <div id="successMessage">Accessing waitlist...</div>
+            <div id="successMessage">
+                <span id="statusText">Joining reservation list...</span>
+            </div>
         </div>
     </section>
 
@@ -67,6 +72,7 @@
         const dootOutAudio = document.getElementById('dootOutAudio');
         const form = document.getElementById('newsletterForm');
         const successMsg = document.getElementById('successMessage');
+        const statusText = document.getElementById('statusText');
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec';
 
@@ -79,17 +85,20 @@
         buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); });
         buttonImg.addEventListener('touchend', releaseButton);
 
-        // Official Submission Logic
+        // Classy Submission Logic
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             form.style.display = 'none'; 
             successMsg.style.display = 'block';
-            successMsg.textContent = "Connecting to reservation secure-server..."; 
             
+            // Phase 1: Joining...
+            statusText.textContent = "Joining reservation list...";
+            
+            // Phase 2: Processing (Simulating high-end security)
             setTimeout(() => {
-                successMsg.textContent = "Reservation Confirmed. You are officially on the list.";
+                statusText.innerHTML = "Reservation <span class='status-accent'>Confirmed</span>. Your priority sequence has been saved.";
                 fetch(scriptURL, { method: 'POST', body: new FormData(form)});
-            }, 1200); // 1.2s delay to make the "secure-server" feel real
+            }, 1500); 
         });
     </script>
 </body>
