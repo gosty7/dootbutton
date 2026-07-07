@@ -43,7 +43,7 @@
         <div class="interactive-button-container pop-in" id="dootTrigger">
             <img src="dootup.png" id="dootImage" alt="Doot Button">
         </div>
-        <div id="dootCounter">Loading...</div>
+        <div id="dootCounter">Connecting...</div>
         <div class="cta-container" id="reserve">
             <form id="newsletterForm">
                 <input type="email" name="Email" class="premium-input" placeholder="Your email" required>
@@ -62,19 +62,23 @@
         const dootTrigger = document.getElementById('dootTrigger');
         const counterDisplay = document.getElementById('dootCounter');
 
-        // JSONP Function to update the UI
-        function updateCounterUI(data) {
+        // Global callback function to update the DOM
+        window.updateCounterUI = function(data) {
             counterDisplay.innerText = data + " Total Doots";
-        }
+        };
 
-        // Load data via JSONP
-        function loadCount() {
+        // Logic to inject script, call Google, and clean up
+        function callGoogle(type) {
+            const oldScript = document.getElementById('jsonp-script');
+            if (oldScript) oldScript.remove();
+            
             const script = document.createElement('script');
-            script.src = SCRIPT_URL + '?type=get&callback=updateCounterUI';
+            script.id = 'jsonp-script';
+            script.src = SCRIPT_URL + '?type=' + type + '&callback=updateCounterUI';
             document.body.appendChild(script);
         }
 
-        window.onload = loadCount;
+        window.onload = () => callGoogle('get');
 
         function pressButton() { 
             dootTrigger.classList.add('doot-active'); 
@@ -87,10 +91,7 @@
             if (buttonImg.src.includes('dootdown.png')) { 
                 buttonImg.src = 'dootup.png'; 
                 document.getElementById('dootOutAudio').play();
-                // JSONP for increment
-                const script = document.createElement('script');
-                script.src = SCRIPT_URL + '?type=doot&callback=updateCounterUI';
-                document.body.appendChild(script);
+                callGoogle('doot');
             } 
         }
 
@@ -101,9 +102,7 @@
             e.preventDefault();
             document.getElementById('newsletterForm').style.display = 'none';
             document.getElementById('successMessage').style.display = 'block';
-            const email = document.querySelector('input').value;
-            // Standard fetch for email as it doesn't need a UI return
-            fetch(SCRIPT_URL + '?Email=' + encodeURIComponent(email));
+            fetch(SCRIPT_URL + '?Email=' + encodeURIComponent(document.querySelector('input').value));
         });
     </script>
 </body>
