@@ -72,7 +72,7 @@
         }
 
         .email-input:focus {
-            border-color: #ff3b30; /* Classic premium red accent */
+            border-color: #ff3b30; /* Premium red accent to match the button */
         }
 
         .submit-btn {
@@ -97,7 +97,7 @@
 
         /* --- Main Content Section --- */
         main {
-            margin-top: 120px; /* Offset for sticky header */
+            margin-top: 120px; /* Space for the sticky header on mobile */
             padding: 0 20px;
             display: flex;
             flex-direction: column;
@@ -106,7 +106,7 @@
 
         @media (min-width: 600px) {
             main {
-                margin-top: 80px;
+                margin-top: 80px; /* Adjusted space for desktop header layout */
             }
         }
 
@@ -202,10 +202,10 @@
 
         <section class="gallery">
             <div class="gallery-item">
-                <img src="concept1.jpg" alt="Doot Button Concept - Marble Setting">
+                <img src="doot1.png" alt="Doot Button Concept Showcase 1">
             </div>
             <div class="gallery-item">
-                <img src="concept2.jpg" alt="Doot Button Concept - Detail Angle">
+                <img src="doot2.png" alt="Doot Button Concept Showcase 2">
             </div>
         </section>
     </main>
@@ -225,8 +225,7 @@
                 e.preventDefault();
                 const emailInput = this.querySelector('.email-input').value;
                 
-                // For now, this alerts the entry. 
-                // Connect this to your chosen backend later (e.g., Formspree, Mailchimp, or Loop)
+                // Temporary client-side success notice
                 alert(`Thank you! ${emailInput} has been added to the Doot Button waitlist.`);
                 
                 // Clear inputs across all identical forms
