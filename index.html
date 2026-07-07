@@ -22,7 +22,6 @@
         .interactive-button-container img { max-width: 260px; width: 100%; height: auto; -webkit-user-drag: none; }
         .doot-active { transform: scale(0.95) !important; }
 
-        /* Floating "DOOT!" text animation */
         .doot-particle { position: absolute; color: #dfc19b; font-weight: 800; font-size: 1.5rem; pointer-events: none; animation: driftUp 1s ease-out forwards; z-index: 10; }
         @keyframes driftUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-80px); } }
 
@@ -64,9 +63,8 @@
         const buttonImg = document.getElementById('dootImage');
         const trigger = document.getElementById('dootTrigger');
         const counter = document.getElementById('dootCounter');
-        const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE'; // PASTE YOUR URL
+        const SCRIPT_URL = 'PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE'; 
 
-        // Fetch initial count
         fetch(SCRIPT_URL + '?type=get').then(r => r.text()).then(t => counter.innerText = t + " Total Doots");
 
         function createParticle() {
@@ -79,26 +77,21 @@
             setTimeout(() => p.remove(), 1000);
         }
 
-        function pressButton() {
+        trigger.addEventListener('mousedown', () => {
             trigger.classList.add('doot-active');
             buttonImg.src = 'dootdown.png';
             document.getElementById('dootInAudio').play();
-        }
+        });
 
-        function releaseButton() {
-            trigger.classList.remove('doot-active');
+        window.addEventListener('mouseup', () => {
             if (buttonImg.src.includes('dootdown.png')) {
+                trigger.classList.remove('doot-active');
                 buttonImg.src = 'dootup.png';
                 document.getElementById('dootOutAudio').play();
                 createParticle();
                 fetch(SCRIPT_URL + '?type=doot').then(r => r.text()).then(t => counter.innerText = t + " Total Doots");
             }
-        }
-
-        trigger.addEventListener('mousedown', pressButton);
-        window.addEventListener('mouseup', releaseButton);
-        trigger.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); }, {passive: false});
-        trigger.addEventListener('touchend', releaseButton);
+        });
 
         document.getElementById('newsletterForm').addEventListener('submit', (e) => {
             e.preventDefault();
