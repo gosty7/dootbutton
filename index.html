@@ -2,58 +2,59 @@
 <html lang="en" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.25, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Doot Button</title>
     
     <link rel="icon" type="image/png" href="favicon-96x96.png">
 
     <style>
+        /* Compact base scale */
         * { box-sizing: border-box; margin: 0; padding: 0; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             -webkit-font-smoothing: antialiased; 
-            font-size: 115%; }
+            font-size: 100%; }
 
         body { background-color: #000000; color: #f5f5f7; overflow-x: hidden; }
 
-        /* Initial "Attention" Animation (Runs once on load) */
+        /* Animation */
         .attention-grabber { animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes popIn {
             0% { transform: scale(0.8); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
 
-        header { position: fixed; top: 0; width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .home-btn { font-weight: 800; font-size: 1.25rem; color: #f5f5f7; text-decoration: none; }
-        .nav-btn { background: #dfc19b; color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; cursor: pointer; }
+        header { position: fixed; top: 0; width: 100%; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .home-btn { font-weight: 800; font-size: 1rem; color: #f5f5f7; text-decoration: none; }
+        .nav-btn { background: #dfc19b; color: #000; padding: 6px 12px; border-radius: 15px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; cursor: pointer; }
 
-        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 90px 20px 50px 20px; text-align: center; }
+        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 20px 40px 20px; text-align: center; }
         
-        h1 { font-size: 3rem; margin-bottom: 10px; }
-        .hint-text { color: #dfc19b; font-weight: 600; font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
-        p { color: #86868b; margin-bottom: 20px; font-size: 1rem; }
+        h1 { font-size: 2.2rem; margin-bottom: 8px; }
+        .hint-text { color: #dfc19b; font-weight: 600; font-size: 0.85rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
+        p { color: #86868b; margin-bottom: 20px; font-size: 0.9rem; }
 
-        /* Static interactive button */
-        .interactive-button-container { 
-            margin: 10px 0; 
-            cursor: pointer; 
-            transition: transform 0.2s ease, filter 0.2s ease; 
+        .interactive-button-container { margin: 5px 0; cursor: pointer; transition: transform 0.2s ease; }
+        .interactive-button-container img { max-width: 200px; width: 100%; height: auto; -webkit-user-drag: none; }
+        .doot-active { transform: scale(0.95) !important; }
+
+        /* Waitlist with Pulse Border Restored */
+        .cta-container { width: 100%; max-width: 300px; margin-top: 25px; padding: 2px; border-radius: 14px; border: 2px solid transparent; animation: pulse-red 2s infinite; }
+        @keyframes pulse-red {
+            0% { border-color: rgba(255, 50, 50, 0.2); }
+            50% { border-color: rgba(255, 50, 50, 0.6); }
+            100% { border-color: rgba(255, 50, 50, 0.2); }
         }
-        .interactive-button-container:hover { transform: scale(1.02); filter: brightness(1.1); }
-        .interactive-button-container img { max-width: 280px; width: 100%; height: auto; -webkit-user-drag: none; }
-        
-        .doot-active { transform: scale(0.95) !important; filter: brightness(0.8) !important; }
 
-        .cta-container { width: 100%; max-width: 380px; margin-top: 20px; }
-        .premium-input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #333; background: #111; color: white; margin-bottom: 10px; }
-        .action-btn { width: 100%; background: #dfc19b; border: none; padding: 15px; border-radius: 12px; font-weight: 700; color: #000; cursor: pointer; }
+        .premium-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #333; background: #111; color: white; margin-bottom: 8px; font-size: 0.9rem; }
+        .action-btn { width: 100%; background: #dfc19b; border: none; padding: 12px; border-radius: 10px; font-weight: 700; color: #000; cursor: pointer; font-size: 0.9rem; }
         
-        #successMessage { display: none; padding: 20px; color: #fff; }
+        #successMessage { display: none; padding: 15px; color: #fff; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="#" class="home-btn">Doot Button</a>
+        <a href="#" class="home-btn">Doot</a>
         <a href="#reserve" class="nav-btn">Waitlist</a>
     </header>
 
@@ -62,14 +63,13 @@
         <p>One button. One sound. Infinite satisfaction.</p>
         
         <div class="hint-text">Tap to Doot</div>
-        <!-- Static button with a one-time pop-in animation -->
         <div class="interactive-button-container attention-grabber" id="dootTrigger">
             <img src="dootup.png" id="dootImage" alt="Doot Button">
         </div>
 
         <div class="cta-container" id="reserve">
             <form id="newsletterForm">
-                <input type="email" name="Email" class="premium-input" placeholder="Your email address" required>
+                <input type="email" name="Email" class="premium-input" placeholder="Your email" required>
                 <button type="submit" class="action-btn">Join Waitlist</button>
             </form>
             <div id="successMessage">
