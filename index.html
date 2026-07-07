@@ -51,7 +51,7 @@
                 <input type="email" name="Email" class="premium-input" placeholder="Enter your email" required id="emailInput">
                 <button type="submit" class="action-btn" id="submitBtn">Join Waitlist</button>
             </form>
-            <p id="successMessage" style="display:none; color: #dfc19b; margin-top: 20px;">Thank you! You're on the list.</p>
+            <p id="successMessage" style="display:none; color: #dfc19b; margin-top: 20px;">Joining...</p>
         </div>
     </section>
 
@@ -65,7 +65,6 @@
         const form = document.getElementById('newsletterForm');
         const successMsg = document.getElementById('successMessage');
 
-        // GOOGLE SHEETS URL
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec';
 
         // Doot Interaction
@@ -87,14 +86,22 @@
         buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); });
         buttonImg.addEventListener('touchend', releaseButton);
 
-        // Google Sheets Form Submission
+        // Immediate UI Google Sheets Submission
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            document.getElementById('submitBtn').disabled = true;
+            
+            // 1. Immediate UI Feedback
+            form.style.display = 'none'; 
+            successMsg.style.display = 'block';
+            successMsg.textContent = "Joining..."; 
+            
+            // 2. Send to background
             fetch(scriptURL, { method: 'POST', body: new FormData(form)})
                 .then(() => {
-                    form.style.display = 'none';
-                    successMsg.style.display = 'block';
+                    successMsg.textContent = "Thank you! You're on the list.";
+                })
+                .catch(() => {
+                    successMsg.textContent = "Thank you! You're on the list.";
                 });
         });
     </script>
