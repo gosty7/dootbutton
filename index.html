@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Doot Button</title>
     
-    <!-- Updated to favicon.png -->
     <link rel="icon" type="image/png" href="favicon.png">
 
     <style>
@@ -14,7 +13,8 @@
             -webkit-font-smoothing: antialiased; 
             font-size: 115%; }
 
-        body { background-color: #000000; color: #f5f5f7; overflow-x: hidden; }
+        /* Main background is now a slightly lighter black for contrast */
+        body { background-color: #121212; color: #f5f5f7; overflow-x: hidden; }
 
         .pop-in { animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes popIn {
@@ -22,9 +22,9 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        header { position: fixed; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        /* Header remains pure black to maintain contrast with the new background */
+        header { position: fixed; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
         
-        /* Updated header link to hold the logo */
         .home-btn { display: flex; align-items: center; text-decoration: none; }
         .home-btn img { height: 35px; width: auto; }
         
@@ -44,7 +44,7 @@
         
         .premium-input { 
             width: 100%; padding: 12px; border-radius: 10px; 
-            background: #111; color: white; margin-bottom: 10px; font-size: 1rem;
+            background: #1a1a1a; color: white; margin-bottom: 10px; font-size: 1rem;
             border: 2px solid transparent; 
             animation: pulse-red 2s infinite; 
             outline: none;
@@ -63,7 +63,6 @@
 <body>
 
     <header>
-        <!-- Updated to use favicon.png as the logo -->
         <a href="#" class="home-btn"><img src="favicon.png" alt="Doot Logo"></a>
         <a href="#reserve" class="nav-btn">Join Waitlist</a>
     </header>
