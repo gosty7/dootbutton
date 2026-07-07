@@ -29,7 +29,7 @@
             -webkit-user-drag: none; 
             user-select: none; 
             -webkit-user-select: none;
-            touch-action: none; /* Crucial for preventing scroll-on-drag */ }
+            touch-action: none; }
         .doot-active { transform: scale(0.95) !important; }
 
         .cta-container { width: 100%; max-width: 380px; margin-top: 40px; padding: 2px; border-radius: 14px; }
@@ -89,6 +89,7 @@
 
         // Optimized Pointer Logic
         buttonImg.onpointerdown = (e) => {
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
             dootTrigger.setPointerCapture(e.pointerId);
             dootTrigger.classList.add('doot-active'); 
             buttonImg.src = 'dootdown.png'; 
@@ -97,10 +98,12 @@
         };
 
         buttonImg.onpointerup = (e) => {
-            dootTrigger.classList.remove('doot-active'); 
-            buttonImg.src = 'dootup.png'; 
-            dootInAudio.pause(); dootInAudio.currentTime = 0; 
-            dootOutAudio.currentTime = 0; dootOutAudio.play();
+            if (dootTrigger.classList.contains('doot-active')) {
+                dootTrigger.classList.remove('doot-active'); 
+                buttonImg.src = 'dootup.png'; 
+                dootInAudio.pause(); dootInAudio.currentTime = 0; 
+                dootOutAudio.currentTime = 0; dootOutAudio.play();
+            }
         };
 
         // Form Logic
