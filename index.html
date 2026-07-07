@@ -11,7 +11,7 @@
         /* Sticky Header */
         header { position: fixed; top: 0; width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .logo { font-weight: 600; letter-spacing: -0.01em; }
-        .nav-btn { background: #dfc19b; color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-decoration: none; transition: opacity 0.2s; }
+        .nav-btn { background: #dfc19b; color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-decoration: none; }
 
         /* Hero */
         .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 20px; text-align: center; }
@@ -51,7 +51,7 @@
                 <input type="email" name="Email" class="premium-input" placeholder="Enter your email" required id="emailInput">
                 <button type="submit" class="action-btn" id="submitBtn">Join Waitlist</button>
             </form>
-            <p id="successMessage" style="display:none; color: #dfc19b; margin-top: 20px;">Joining...</p>
+            <p id="successMessage" style="display:none; color: #dfc19b; margin-top: 20px; font-size: 1.2rem;">Thank you! You're on the list.</p>
         </div>
     </section>
 
@@ -90,19 +90,15 @@
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            // 1. Immediate UI Feedback
+            // 1. Instant UI Snap
             form.style.display = 'none'; 
             successMsg.style.display = 'block';
-            successMsg.textContent = "Joining..."; 
             
-            // 2. Send to background
-            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-                .then(() => {
-                    successMsg.textContent = "Thank you! You're on the list.";
-                })
-                .catch(() => {
-                    successMsg.textContent = "Thank you! You're on the list.";
-                });
+            // 2. Background offload
+            setTimeout(() => {
+                fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                    .catch(err => console.log("Data backgrounded."));
+            }, 0);
         });
     </script>
 </body>
