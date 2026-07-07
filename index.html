@@ -42,7 +42,7 @@
         <div class="interactive-button-container pop-in" id="dootTrigger">
             <img src="dootup.png" id="dootImage" alt="Doot Button">
         </div>
-        <div id="dootCounter">Connecting...</div>
+        <div id="dootCounter">Loading...</div>
         <iframe id="dataBridge" src="https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec" style="display:none;"></iframe>
 
         <div class="cta-container" id="reserve">
@@ -58,11 +58,9 @@
     <audio id="dootOutAudio" src="dootclickout.wav"></audio>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec';
-        const buttonImg = document.getElementById('dootImage');
-        const dootTrigger = document.getElementById('dootTrigger');
+        const bridge = document.getElementById('dataBridge');
         const counterDisplay = document.getElementById('dootCounter');
-
+        
         // Listen for the "shout" from the hidden bridge
         window.addEventListener("message", function(event) {
             if(event.data.type === 'count') {
@@ -70,32 +68,23 @@
             }
         }, false);
 
-        function pressButton() { 
-            dootTrigger.classList.add('doot-active'); 
-            buttonImg.src = 'dootdown.png'; 
-            document.getElementById('dootInAudio').play(); 
-        }
+        document.getElementById('dootTrigger').addEventListener('mousedown', () => {
+            document.getElementById('dootImage').src = 'dootdown.png';
+            document.getElementById('dootInAudio').play();
+        });
 
-        function releaseButton() { 
-            dootTrigger.classList.remove('doot-active'); 
-            if (buttonImg.src.includes('dootdown.png')) { 
-                buttonImg.src = 'dootup.png'; 
-                document.getElementById('dootOutAudio').play();
-                // Send increment signal, then refresh bridge to get new number
-                fetch(SCRIPT_URL + '?type=doot').then(() => {
-                    document.getElementById('dataBridge').src = SCRIPT_URL + '?t=' + Date.now();
-                });
-            } 
-        }
+        document.getElementById('dootTrigger').addEventListener('mouseup', () => {
+            document.getElementById('dootImage').src = 'dootup.png';
+            document.getElementById('dootOutAudio').play();
+            // Communicate with bridge internally (no fetch()!)
+            bridge.contentWindow.postMessage({action: 'doot'}, "*");
+        });
 
-        buttonImg.addEventListener('mousedown', pressButton);
-        window.addEventListener('mouseup', releaseButton);
-        
         document.getElementById('newsletterForm').addEventListener('submit', (e) => {
             e.preventDefault();
             document.getElementById('newsletterForm').style.display = 'none';
             document.getElementById('successMessage').style.display = 'block';
-            fetch(SCRIPT_URL + '?Email=' + encodeURIComponent(document.querySelector('input').value));
+            fetch('https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec?Email=' + encodeURIComponent(document.querySelector('input').value));
         });
     </script>
 </body>
