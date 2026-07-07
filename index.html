@@ -1,252 +1,112 @@
 <!DOCTYPE html>
-
 <html lang="en" style="scroll-behavior: smooth;">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>The Doot Button</title>
-
-    
-
     <link rel="icon" type="image/png" href="favicon.png">
 
-
     <style>
-
-        * { box-sizing: border-box; margin: 0; padding: 0; 
-
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-
-            -webkit-font-smoothing: antialiased; 
-
-            font-size: 115%; }
-
-
-        /* Main background is now a slightly lighter black for contrast */
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; font-size: 115%; }
         body { background-color: #121212; color: #f5f5f7; overflow-x: hidden; }
-
-
         .pop-in { animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-
-        @keyframes popIn {
-
-            0% { transform: scale(0.5); opacity: 0; }
-
-            100% { transform: scale(1); opacity: 1; }
-
-        }
-
-
-        /* Header remains pure black to maintain contrast with the new background */
-
+        @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         header { position: fixed; top: 0; width: 100%; padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
-
-        
-
         .home-btn { display: flex; align-items: center; text-decoration: none; }
-
         .home-btn img { height: 35px; width: auto; }
-
-        
-
         .nav-btn { background: #dfc19b; color: #000; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; cursor: pointer; text-decoration: none; }
-
-
         .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 120px 25px 40px 25px; text-align: center; }
-
-        
-
         h1 { font-size: 3rem; margin-bottom: 12px; }
-
         .hint-text { color: #dfc19b; font-weight: 600; font-size: 1rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
-
         p { color: #86868b; margin-bottom: 30px; font-size: 1.1rem; }
-
-
         .interactive-button-container { margin: 10px 0; cursor: pointer; transition: transform 0.2s ease; }
-
         .interactive-button-container img { max-width: 260px; width: 100%; height: auto; -webkit-user-drag: none; }
-
         .doot-active { transform: scale(0.95) !important; }
-
-
+        
+        /* NEW COUNTER STYLE */
+        #dootCounter { margin: 15px 0 25px 0; color: #dfc19b; font-weight: 700; font-size: 1.2rem; }
+        
         .cta-container { width: 100%; max-width: 320px; margin-top: 30px; }
-
-        
-
-        .premium-input { 
-
-            width: 100%; padding: 12px; border-radius: 10px; 
-
-            background: #1a1a1a; color: white; margin-bottom: 10px; font-size: 1rem;
-
-            border: 2px solid transparent; 
-
-            animation: pulse-red 2s infinite; 
-
-            outline: none;
-
-        }
-
-        @keyframes pulse-red {
-
-            0% { border-color: rgba(255, 50, 50, 0.2); }
-
-            50% { border-color: rgba(255, 50, 50, 0.6); }
-
-            100% { border-color: rgba(255, 50, 50, 0.2); }
-
-        }
-
-
+        .premium-input { width: 100%; padding: 12px; border-radius: 10px; background: #1a1a1a; color: white; margin-bottom: 10px; font-size: 1rem; border: 2px solid transparent; animation: pulse-red 2s infinite; outline: none; }
+        @keyframes pulse-red { 0% { border-color: rgba(255, 50, 50, 0.2); } 50% { border-color: rgba(255, 50, 50, 0.6); } 100% { border-color: rgba(255, 50, 50, 0.2); } }
         .action-btn { width: 100%; background: #dfc19b; border: none; padding: 12px; border-radius: 10px; font-weight: 700; color: #000; cursor: pointer; font-size: 1rem; }
-
-        
-
         #successMessage { display: none; padding: 12px; color: #fff; font-size: 1rem; }
-
     </style>
-
 </head>
-
 <body>
-
-
     <header>
-
         <a href="#" class="home-btn"><img src="favicon.png" alt="Doot Logo"></a>
-
         <a href="#reserve" class="nav-btn">Join Waitlist</a>
-
     </header>
-
-
     <section class="hero">
-
         <h1>The Doot Button</h1>
-
         <p>One button. One sound. Infinite satisfaction.</p>
-
-        
-
         <div class="hint-text">Tap to Doot</div>
-
         <div class="interactive-button-container pop-in" id="dootTrigger">
-
             <img src="dootup.png" id="dootImage" alt="Doot Button">
-
         </div>
 
+        <div id="dootCounter">Loading doots...</div>
 
         <div class="cta-container" id="reserve">
-
             <form id="newsletterForm">
-
                 <input type="email" name="Email" class="premium-input" placeholder="Your email" required>
-
                 <button type="submit" class="action-btn">Join Waitlist</button>
-
             </form>
-
-            <div id="successMessage">
-
-                <span id="statusText">Joining waitlist...</span>
-
-            </div>
-
+            <div id="successMessage"><span id="statusText">Joining waitlist...</span></div>
         </div>
-
     </section>
-
-
     <audio id="dootInAudio" src="dootclickin.wav"></audio>
-
     <audio id="dootOutAudio" src="dootclickout.wav"></audio>
 
-
     <script>
-
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec';
         const buttonImg = document.getElementById('dootImage');
-
         const dootTrigger = document.getElementById('dootTrigger');
-
-        const dootInAudio = document.getElementById('dootInAudio');
-
-        const dootOutAudio = document.getElementById('dootOutAudio');
-
-        const form = document.getElementById('newsletterForm');
-
-        const successMsg = document.getElementById('successMessage');
-
+        const counterDisplay = document.getElementById('dootCounter');
+        
+        // Fetch and show total doots on load
+        fetch(SCRIPT_URL + '?type=get').then(r => r.text()).then(t => counterDisplay.innerText = t + " Total Doots");
 
         function pressButton() { 
-
             dootTrigger.classList.add('doot-active'); 
-
             buttonImg.src = 'dootdown.png'; 
-
-            dootOutAudio.pause(); dootOutAudio.currentTime = 0; 
-
-            dootInAudio.currentTime = 0; dootInAudio.play(); 
-
+            document.getElementById('dootOutAudio').pause(); 
+            document.getElementById('dootOutAudio').currentTime = 0; 
+            document.getElementById('dootInAudio').currentTime = 0; 
+            document.getElementById('dootInAudio').play(); 
         }
-
 
         function releaseButton() { 
-
             dootTrigger.classList.remove('doot-active'); 
-
             if (buttonImg.src.includes('dootdown.png')) { 
-
                 buttonImg.src = 'dootup.png'; 
-
-                dootInAudio.pause(); dootInAudio.currentTime = 0; 
-
-                dootOutAudio.currentTime = 0; dootOutAudio.play(); 
-
+                document.getElementById('dootInAudio').pause(); 
+                document.getElementById('dootInAudio').currentTime = 0; 
+                document.getElementById('dootOutAudio').currentTime = 0; 
+                document.getElementById('dootOutAudio').play();
+                
+                // Update counter locally
+                const cur = parseInt(counterDisplay.innerText) || 0;
+                counterDisplay.innerText = (cur + 1) + " Total Doots";
+                // Trigger backend update
+                fetch(SCRIPT_URL + '?type=doot');
             } 
-
         }
 
-
         buttonImg.addEventListener('mousedown', pressButton);
-
         window.addEventListener('mouseup', releaseButton);
-
-        buttonImg.addEventListener('mouseleave', releaseButton); 
-
         buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); }, {passive: false});
-
         buttonImg.addEventListener('touchend', releaseButton);
 
-        buttonImg.addEventListener('touchcancel', releaseButton);
-
-
-        form.addEventListener('submit', (e) => {
-
+        document.getElementById('newsletterForm').addEventListener('submit', (e) => {
             e.preventDefault();
-
-            form.style.display = 'none'; 
-
-            successMsg.style.display = 'block';
-
-            setTimeout(() => {
-
-                successMsg.textContent = "Thanks for Joining!";
-
-                fetch('https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec', { method: 'POST', body: new FormData(form)});
-
-            }, 1200); 
-
+            const email = e.target.querySelector('input').value;
+            fetch(SCRIPT_URL + '?Email=' + encodeURIComponent(email));
+            e.target.style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('successMessage').textContent = "Thanks for Joining!";
         });
-
     </script>
-
 </body>
-
-</html> 
+</html>
