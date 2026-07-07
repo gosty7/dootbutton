@@ -103,21 +103,20 @@
             dootInAudio.play(); 
         }
 
+        // Updated: Always resets regardless of previous state to avoid sync bugs
         function releaseButton() { 
             dootTrigger.classList.remove('doot-active'); 
-            if (buttonImg.src.includes('dootdown.png')) { 
-                buttonImg.src = 'dootup.png'; 
-                dootInAudio.pause(); 
-                dootInAudio.currentTime = 0; 
-                dootOutAudio.currentTime = 0; 
-                dootOutAudio.play(); 
-            } 
+            buttonImg.src = 'dootup.png'; 
+            dootInAudio.pause(); 
+            dootInAudio.currentTime = 0; 
+            dootOutAudio.currentTime = 0; 
+            dootOutAudio.play(); 
         }
 
         // Listeners
         buttonImg.addEventListener('mousedown', pressButton);
         window.addEventListener('mouseup', releaseButton);
-        buttonImg.addEventListener('mouseleave', releaseButton); // Force release if drag leaves button
+        buttonImg.addEventListener('mouseleave', releaseButton);
         
         buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); }, {passive: false});
         buttonImg.addEventListener('touchend', releaseButton);
