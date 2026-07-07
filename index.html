@@ -20,19 +20,23 @@
         h1 { font-size: 4rem; margin-bottom: 15px; letter-spacing: -0.04em; }
         p { color: #86868b; margin-bottom: 40px; font-size: 1.2rem; }
 
-        /* The Button Animation */
+        /* Button Animation */
         .interactive-button-container { margin: 20px 0; cursor: pointer; user-select: none; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .interactive-button-container img { max-width: 320px; width: 100%; height: auto; }
         .doot-active { transform: scale(0.95) !important; }
 
-        /* Waitlist Container */
-        .cta-container { width: 100%; max-width: 380px; margin-top: 40px; }
-        .premium-input { width: 100%; padding: 16px 20px; border-radius: 12px; border: 1px solid #333; background: #111; color: white; outline: none; font-size: 1rem; margin-bottom: 15px; transition: border 0.3s; }
-        .premium-input:focus { border: 1px solid #dfc19b; }
-        .action-btn { width: 100%; background: #dfc19b; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 1rem; color: #000; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; transition: background 0.3s; }
-        .action-btn:hover { background: #c5a682; }
+        /* Waitlist & Pulse Animation */
+        .cta-container { width: 100%; max-width: 380px; margin-top: 40px; padding: 2px; border-radius: 14px; }
+        .pulse-border { border: 2px solid transparent; animation: pulse-red 2s infinite; }
+        @keyframes pulse-red {
+            0% { border-color: rgba(255, 0, 0, 0); }
+            50% { border-color: rgba(255, 50, 50, 0.6); }
+            100% { border-color: rgba(255, 0, 0, 0); }
+        }
 
-        /* Success Message */
+        .premium-input { width: 100%; padding: 16px 20px; border-radius: 12px; border: 1px solid #333; background: #111; color: white; outline: none; font-size: 1rem; margin-bottom: 15px; }
+        .action-btn { width: 100%; background: #dfc19b; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 1rem; color: #000; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; }
+        
         #successMessage { display: none; color: #fff; font-weight: 400; font-size: 1rem; padding: 20px; border-top: 1px solid #333; }
     </style>
 </head>
@@ -51,7 +55,8 @@
             <img src="dootup.png" id="dootImage" alt="Doot Button">
         </div>
 
-        <div class="cta-container" id="reserve">
+        <!-- The pulse-border class adds the flashing red effect -->
+        <div class="cta-container pulse-border" id="reserve">
             <form id="newsletterForm">
                 <input type="email" name="Email" class="premium-input" placeholder="Your preferred email address" required>
                 <button type="submit" class="action-btn" id="submitBtn">Join Waitlist</button>
@@ -76,33 +81,16 @@
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec';
 
-        // Unified Interaction
-        function pressButton() { 
-            dootTrigger.classList.add('doot-active'); 
-            buttonImg.src = 'dootdown.png'; 
-            dootInAudio.currentTime = 0; 
-            dootInAudio.play(); 
-        }
+        // Sound Interaction
+        function pressButton() { dootTrigger.classList.add('doot-active'); buttonImg.src = 'dootdown.png'; dootInAudio.currentTime = 0; dootInAudio.play(); }
+        function releaseButton() { dootTrigger.classList.remove('doot-active'); if (buttonImg.src.includes('dootdown.png')) { buttonImg.src = 'dootup.png'; dootOutAudio.currentTime = 0; dootOutAudio.play(); } }
 
-        function releaseButton() { 
-            dootTrigger.classList.remove('doot-active');
-            if (buttonImg.src.includes('dootdown.png')) { 
-                buttonImg.src = 'dootup.png'; 
-                dootOutAudio.currentTime = 0; 
-                dootOutAudio.play(); 
-            } 
-        }
-
-        // Desktop
         buttonImg.addEventListener('mousedown', pressButton);
         window.addEventListener('mouseup', releaseButton);
-
-        // Mobile
         buttonImg.addEventListener('touchstart', (e) => { e.preventDefault(); pressButton(); }, {passive: false});
         buttonImg.addEventListener('touchend', releaseButton);
         buttonImg.addEventListener('touchcancel', releaseButton);
 
-        // Submission Logic
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             form.style.display = 'none'; 
