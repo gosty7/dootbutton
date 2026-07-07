@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Doot Button</title>
     <link rel="icon" type="image/png" href="favicon.png">
-
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; font-size: 115%; }
         body { background-color: #121212; color: #f5f5f7; overflow-x: hidden; }
@@ -44,6 +43,8 @@
             <img src="dootup.png" id="dootImage" alt="Doot Button">
         </div>
         <div id="dootCounter">Connecting...</div>
+        <iframe id="dataBridge" src="https://script.google.com/macros/s/AKfycbyaCH6C-cE__2SHdL2fa4wtvedPI0UAZCurVXHHevk1TXn8lvLV58exu3oCOHlvsvhS/exec" style="display:none;"></iframe>
+
         <div class="cta-container" id="reserve">
             <form id="newsletterForm">
                 <input type="email" name="Email" class="premium-input" placeholder="Your email" required>
@@ -62,23 +63,12 @@
         const dootTrigger = document.getElementById('dootTrigger');
         const counterDisplay = document.getElementById('dootCounter');
 
-        // Global callback function to update the DOM
-        window.updateCounterUI = function(data) {
-            counterDisplay.innerText = data + " Total Doots";
-        };
-
-        // Logic to inject script, call Google, and clean up
-        function callGoogle(type) {
-            const oldScript = document.getElementById('jsonp-script');
-            if (oldScript) oldScript.remove();
-            
-            const script = document.createElement('script');
-            script.id = 'jsonp-script';
-            script.src = SCRIPT_URL + '?type=' + type + '&callback=updateCounterUI';
-            document.body.appendChild(script);
-        }
-
-        window.onload = () => callGoogle('get');
+        // Listen for the "shout" from the hidden bridge
+        window.addEventListener("message", function(event) {
+            if(event.data.type === 'count') {
+                counterDisplay.innerText = event.data.value + " Total Doots";
+            }
+        }, false);
 
         function pressButton() { 
             dootTrigger.classList.add('doot-active'); 
@@ -91,7 +81,10 @@
             if (buttonImg.src.includes('dootdown.png')) { 
                 buttonImg.src = 'dootup.png'; 
                 document.getElementById('dootOutAudio').play();
-                callGoogle('doot');
+                // Send increment signal, then refresh bridge to get new number
+                fetch(SCRIPT_URL + '?type=doot').then(() => {
+                    document.getElementById('dataBridge').src = SCRIPT_URL + '?t=' + Date.now();
+                });
             } 
         }
 
