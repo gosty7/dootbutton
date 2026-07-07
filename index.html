@@ -18,11 +18,12 @@
         h1 { font-size: 3rem; margin-bottom: 12px; }
         .hint-text { color: #dfc19b; font-weight: 600; font-size: 1rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
         p { color: #86868b; margin-bottom: 30px; font-size: 1.1rem; }
-        #dootCounter { margin: 10px 0 20px 0; color: #dfc19b; font-weight: 700; font-size: 1.1rem; }
+        /* Counter styling */
+        #dootCounter { margin: 15px 0 25px 0; color: #dfc19b; font-weight: 700; font-size: 1.2rem; }
         .interactive-button-container { margin: 10px 0; cursor: pointer; transition: transform 0.2s ease; }
         .interactive-button-container img { max-width: 260px; width: 100%; height: auto; -webkit-user-drag: none; }
         .doot-active { transform: scale(0.95) !important; }
-        .cta-container { width: 100%; max-width: 320px; margin-top: 20px; }
+        .cta-container { width: 100%; max-width: 320px; margin-top: 30px; }
         .premium-input { width: 100%; padding: 12px; border-radius: 10px; background: #1a1a1a; color: white; margin-bottom: 10px; font-size: 1rem; border: 2px solid transparent; animation: pulse-red 2s infinite; outline: none; }
         @keyframes pulse-red { 0% { border-color: rgba(255, 50, 50, 0.2); } 50% { border-color: rgba(255, 50, 50, 0.6); } 100% { border-color: rgba(255, 50, 50, 0.2); } }
         .action-btn { width: 100%; background: #dfc19b; border: none; padding: 12px; border-radius: 10px; font-weight: 700; color: #000; cursor: pointer; font-size: 1rem; }
@@ -43,7 +44,7 @@
             <img src="dootup.png" id="dootImage" alt="Doot Button">
         </div>
         
-        <div id="dootCounter">Loading total doots...</div>
+        <div id="dootCounter">Loading...</div>
 
         <div class="cta-container" id="reserve">
             <form id="newsletterForm">
@@ -65,31 +66,28 @@
         const form = document.getElementById('newsletterForm');
         const successMsg = document.getElementById('successMessage');
 
-        // Fetch count
+        // Load Initial Count
         fetch(SCRIPT_URL + '?type=get').then(r => r.text()).then(t => counterDisplay.innerText = t + " Total Doots");
 
-        function pressButton() {
-            dootTrigger.classList.add('doot-active');
-            buttonImg.src = 'dootdown.png';
-            document.getElementById('dootOutAudio').pause();
-            document.getElementById('dootOutAudio').currentTime = 0;
-            document.getElementById('dootInAudio').currentTime = 0;
-            document.getElementById('dootInAudio').play();
+        function pressButton() { 
+            dootTrigger.classList.add('doot-active'); 
+            buttonImg.src = 'dootdown.png'; 
+            document.getElementById('dootOutAudio').pause(); document.getElementById('dootOutAudio').currentTime = 0; 
+            document.getElementById('dootInAudio').currentTime = 0; document.getElementById('dootInAudio').play(); 
         }
 
-        function releaseButton() {
-            dootTrigger.classList.remove('doot-active');
-            if (buttonImg.src.includes('dootdown.png')) {
-                buttonImg.src = 'dootup.png';
-                document.getElementById('dootInAudio').pause();
-                document.getElementById('dootInAudio').currentTime = 0;
-                document.getElementById('dootOutAudio').currentTime = 0;
-                document.getElementById('dootOutAudio').play();
+        function releaseButton() { 
+            dootTrigger.classList.remove('doot-active'); 
+            if (buttonImg.src.includes('dootdown.png')) { 
+                buttonImg.src = 'dootup.png'; 
+                document.getElementById('dootInAudio').pause(); document.getElementById('dootInAudio').currentTime = 0; 
+                document.getElementById('dootOutAudio').currentTime = 0; document.getElementById('dootOutAudio').play(); 
                 
+                // Update UI + Sync
                 const cur = parseInt(counterDisplay.innerText.replace(/[^0-9]/g, '')) || 0;
                 counterDisplay.innerText = (cur + 1) + " Total Doots";
-                fetch(SCRIPT_URL + '?type=doot', { mode: 'no-cors' });
-            }
+                fetch(SCRIPT_URL + '?type=doot');
+            } 
         }
 
         buttonImg.addEventListener('mousedown', pressButton);
@@ -101,7 +99,8 @@
             e.preventDefault();
             form.style.display = 'none';
             successMsg.style.display = 'block';
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: new FormData(form)});
+            const email = form.querySelector('input').value;
+            fetch(SCRIPT_URL + '?Email=' + encodeURIComponent(email));
         });
     </script>
 </body>
